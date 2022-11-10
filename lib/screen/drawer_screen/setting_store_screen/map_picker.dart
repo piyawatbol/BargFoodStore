@@ -77,10 +77,6 @@ class _MappickerScreenState extends State<MappickerScreen> {
         statusLoading = false;
       });
       Navigator.pop(context, false);
-      // Navigator.pushReplacement(context,
-      //     MaterialPageRoute(builder: (BuildContext context) {
-      //   return SettingStoreScreen();
-      // }));
     }
   }
 

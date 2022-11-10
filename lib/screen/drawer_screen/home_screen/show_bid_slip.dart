@@ -3,15 +3,15 @@
 import 'package:barg_store_app/ipcon.dart';
 import 'package:flutter/material.dart';
 
-class ShowBigImg extends StatefulWidget {
+class showBigSlip extends StatefulWidget {
   String? img;
-  ShowBigImg({required this.img});
+  showBigSlip({required this.img});
 
   @override
-  State<ShowBigImg> createState() => _ShowBigImgState();
+  State<showBigSlip> createState() => _showBigSlipState();
 }
 
-class _ShowBigImgState extends State<ShowBigImg> {
+class _showBigSlipState extends State<showBigSlip> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -25,7 +25,7 @@ class _ShowBigImgState extends State<ShowBigImg> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Center(
-                    child: Image.network("$path_img/users/${widget.img}"))),
+                    child: Image.network("$path_img/slip/${widget.img}"))),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

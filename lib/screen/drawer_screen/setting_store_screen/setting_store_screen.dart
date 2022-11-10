@@ -39,12 +39,17 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
     if (this.mounted) {
       setState(() {
         storeList = data;
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+            zoom: 16,
+            target: LatLng(double.parse(storeList[0]['store_lat']),
+                double.parse(storeList[0]['store_long'])),
+          ),
+        ));
         markers.add(Marker(
-          markerId: MarkerId("1"),
-          position: storeList[0]['store_lat'] == ""
-              ? LatLng(0, 0)
-              : LatLng(double.parse(storeList[0]['store_lat']),
-                  double.parse(storeList[0]['store_long'])),
+          markerId: MarkerId('1'),
+          position: LatLng(double.parse(storeList[0]['store_lat']),
+              double.parse(storeList[0]['store_long'])),
           infoWindow: InfoWindow(
             title: 'My Custom Title ',
             snippet: 'My Custom Subtitle',
@@ -53,6 +58,10 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
         ));
       });
     }
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
   }
 
   @override
@@ -152,7 +161,7 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
         : Container(
             padding: EdgeInsets.symmetric(vertical: height * 0.01),
             width: width * 0.85,
-            height: height * 0.22,
+            height: height * 0.21,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5),
@@ -164,21 +173,23 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
                 ),
               ],
             ),
-            child: Column(
-              children: [
-                buildRowText(
-                    "Store name :", storeList[0]['store_name'], 0.27, 0.42),
-                buildRowText("House number :",
-                    storeList[0]['store_house_number'], 0.33, 0.36),
-                buildRowText(
-                    "County :", storeList[0]['store_county'], 0.18, 0.51),
-                buildRowText(
-                    "District :", storeList[0]['store_district'], 0.18, 0.51),
-                buildRowText(
-                    "Province :", storeList[0]['store_province'], 0.22, 0.47),
-                buildRowText(
-                    "Zipcode :", storeList[0]['store_zipcode'], 0.2, 0.49),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  buildRowText(
+                      "Store name :", storeList[0]['store_name'], 0.27, 0.42),
+                  buildRowText("House number :",
+                      storeList[0]['store_house_number'], 0.33, 0.36),
+                  buildRowText(
+                      "County :", storeList[0]['store_county'], 0.18, 0.51),
+                  buildRowText(
+                      "District :", storeList[0]['store_district'], 0.18, 0.51),
+                  buildRowText(
+                      "Province :", storeList[0]['store_province'], 0.22, 0.47),
+                  buildRowText(
+                      "Zipcode :", storeList[0]['store_zipcode'], 0.2, 0.49),
+                ],
+              ),
             ),
           );
   }
@@ -255,6 +266,7 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: GoogleMap(
+                              onMapCreated: _onMapCreated,
                               zoomControlsEnabled: false,
                               markers: markers,
                               myLocationButtonEnabled: false,
