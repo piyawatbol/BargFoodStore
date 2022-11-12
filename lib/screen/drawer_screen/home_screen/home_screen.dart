@@ -37,7 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       store_id = preferences.getString('store_id');
     });
-    final response = await http.get(Uri.parse("$ipcon/get_request/$store_id"));
+    final response =
+        await http.get(Uri.parse("$ipcon/get_request/$store_id/1"));
     var data = json.decode(response.body);
     setState(() {
       requestList = data;
@@ -99,11 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       body: jsonEncode(<String, String>{
         "request_id": request_id.toString(),
-        "status": "2",
+        "status": "3",
       }),
     );
 
     if (response.statusCode == 200) {
+      setState(() {
+        statusLoading = false;
+      });
       Navigator.pop(context);
     }
   }
@@ -531,6 +535,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         onPressed: () {
           if (text == "Confirm") {
+            setState(() {
+              statusLoading = true;
+            });
             update_request();
           } else {
             Navigator.pop(context);

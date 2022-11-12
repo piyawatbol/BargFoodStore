@@ -14,7 +14,7 @@ class BackArrowButton extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: height * 0.02, horizontal: width * 0.025),
+          vertical: height * 0.018, horizontal: width * 0.025),
       child: Row(
         children: [
           IconButton(

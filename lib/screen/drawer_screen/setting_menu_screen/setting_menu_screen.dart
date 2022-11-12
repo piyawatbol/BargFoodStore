@@ -27,9 +27,11 @@ class _SettingMenuScreenState extends State<SettingMenuScreen> {
     });
     final response = await http.get(Uri.parse("$ipcon/get_menu/$store_id"));
     var data = json.decode(response.body);
-    setState(() {
-      foodList = data;
-    });
+    if (this.mounted) {
+      setState(() {
+        foodList = data;
+      });
+    }
   }
 
   @override
