@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:barg_store_app/screen/drawer_screen/home_screen/show_bid_slip.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
+import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
 import 'package:barg_store_app/screen/drawer_screen/drawer_widget.dart';
@@ -21,11 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
   String? store_id;
   List requestList = [];
   List orderList = [];
+  List order_List = [];
   bool show = false;
-  String? order_id;
-  String? slip_img;
-  String? request_id;
   int sum_price = 0;
+  String? request_id;
+  bool statusLoading = false;
+  List amoutList = [];
+  List priceList = [];
+  int sum_amount = 0;
+  int sum_pirce = 0;
 
   get_request() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -39,16 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  get_order(String? _request_id, String? _order_id, String? _slip_img) async {
+  get_order(String? _request_id, String? _order_id, String? _slip_img,
+      String? _time) async {
     final response = await http.get(Uri.parse("$ipcon/get_order/$_order_id"));
     var data = json.decode(response.body);
 
     if (response.statusCode == 200) {
       setState(() {
-        request_id = _request_id;
         orderList = data;
-        order_id = _order_id;
-        slip_img = _slip_img;
+        request_id = _request_id;
         sum_price = 0;
       });
       for (var i = 0; i < orderList.length; i++) {
@@ -56,8 +60,34 @@ class _HomeScreenState extends State<HomeScreen> {
           sum_price = sum_price + int.parse(orderList[i]['price']);
         }
       }
+      setState(() {
+        statusLoading = false;
+      });
+      buildShow(_request_id, _order_id, _slip_img, _time);
+    }
+  }
 
-      buildShow();
+  get_sum_amout_price(String? _order_id, index) async {
+    final response = await http.get(Uri.parse("$ipcon/get_order/$_order_id"));
+    var data = json.decode(response.body);
+    setState(() {
+      order_List = data;
+      sum_amount = 0;
+      sum_pirce = 0;
+    });
+    for (var i = 0; i < order_List.length; i++) {
+      int amount = int.parse(order_List[i]['amount']);
+      int price = int.parse(order_List[i]['price']);
+
+      sum_amount = sum_amount + amount;
+      sum_pirce = sum_pirce + price;
+    }
+    if (amoutList.length < requestList.length) {
+      amoutList.add('$sum_amount');
+      priceList.add('$sum_pirce');
+    } else {
+      amoutList[index] = sum_amount.toString();
+      priceList[index] = sum_pirce.toString();
     }
   }
 
@@ -91,9 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text(
-          "Order",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: AutoText(
+          width: width * 0.4,
+          text: "ORDER",
+          fontSize: 22,
+          color: Colors.white,
+          text_align: TextAlign.center,
+          fontWeight: FontWeight.bold,
         ),
         bottom:
             PreferredSize(preferredSize: Size.fromHeight(7), child: SizedBox()),
@@ -121,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 buildListRequest(),
               ],
             ),
+            LoadingPage(statusLoading: statusLoading)
           ],
         ),
       ),
@@ -137,22 +172,28 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             itemCount: requestList.length,
             itemBuilder: (BuildContext context, int index) {
+              get_sum_amout_price(requestList[index]['order_id'], index);
               return GestureDetector(
                 onTap: () async {
+                  setState(() {
+                    statusLoading = true;
+                  });
                   await get_order(
                     requestList[index]['request_id'].toString(),
                     requestList[index]['order_id'],
                     requestList[index]['slip_img'],
+                    requestList[index]['time'],
                   );
                 },
                 child: Container(
+                  padding: EdgeInsets.all(5),
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.035, vertical: height * 0.005),
                   width: width,
-                  height: height * 0.07,
+                  height: height * 0.13,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,
@@ -162,30 +203,84 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: height * 0.015, horizontal: width * 0.07),
+                            horizontal: width * 0.03, vertical: height * 0.005),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AutoText(
-                              width: width * 0.15,
-                              text: "order id",
-                              fontSize: 14,
-                              color: Colors.black,
+                              width: width * 0.4,
+                              text: requestList[index]['order_id'],
+                              fontSize: 16,
+                              color: Colors.grey.shade800,
                               text_align: TextAlign.left,
                               fontWeight: null,
                             ),
                             AutoText(
-                              width: width * 0.4,
-                              text: requestList[index]['order_id'],
-                              fontSize: 14,
-                              color: Colors.black,
+                              width: width * 0.2,
+                              text: requestList[index]['time'],
+                              fontSize: 16,
+                              color: Colors.grey.shade800,
                               text_align: TextAlign.right,
                               fontWeight: null,
                             ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03, vertical: height * 0.005),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AutoText(
+                              width: width * 0.2,
+                              text: "Item ",
+                              fontSize: 16,
+                              color: Colors.black54,
+                              text_align: TextAlign.left,
+                              fontWeight: null,
+                            ),
+                            amoutList.isEmpty
+                                ? Text("")
+                                : AutoText(
+                                    width: width * 0.2,
+                                    text: amoutList[index],
+                                    fontSize: 16,
+                                    color: Colors.black54,
+                                    text_align: TextAlign.right,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03, vertical: height * 0.005),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AutoText(
+                              width: width * 0.2,
+                              text: "Total ",
+                              fontSize: 16,
+                              color: Colors.black,
+                              text_align: TextAlign.left,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            amoutList.isEmpty
+                                ? Text("")
+                                : AutoText(
+                                    width: width * 0.2,
+                                    text: '${priceList[index]}฿',
+                                    fontSize: 16,
+                                    color: Colors.green,
+                                    text_align: TextAlign.right,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                           ],
                         ),
                       ),
@@ -200,190 +295,218 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  buildShow() {
+  buildShow(String? _request_id, String? _order_id, String? _slip_img,
+      String? _time) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(11),
-          margin: EdgeInsets.symmetric(
-              vertical: height * 0.05, horizontal: width * 0.04),
-          width: width,
-          height: height * 0.5,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(30)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+        return GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            padding: EdgeInsets.all(11),
+            margin: EdgeInsets.symmetric(
+                vertical: height * 0.05, horizontal: width * 0.04),
+            width: width,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(30)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset(
-                        "assets/images/cancel.png",
-                        width: width * 0.1,
-                        height: height * 0.05,
-                        color: Colors.black54,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Image.asset(
+                              "assets/images/cancel.png",
+                              width: width * 0.1,
+                              height: height * 0.05,
+                              color: Colors.black54,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
-              AutoText(
-                width: width * 0.4,
-                text: "  Order details",
-                fontSize: 20,
-                color: Colors.black,
-                text_align: TextAlign.left,
-                fontWeight: FontWeight.bold,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: height * 0.02, horizontal: width * 0.03),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AutoText(
-                      width: width * 0.3,
-                      text: "order id",
-                      fontSize: 16,
-                      color: Colors.black,
-                      text_align: TextAlign.left,
-                      fontWeight: FontWeight.w500,
                     ),
                     AutoText(
                       width: width * 0.4,
-                      text: "$order_id",
-                      fontSize: 16,
+                      text: "Order details",
+                      fontSize: 20,
                       color: Colors.black,
-                      text_align: TextAlign.right,
-                      fontWeight: FontWeight.w500,
+                      text_align: TextAlign.left,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                height: height * 0.2,
-                child: ListView.builder(
-                  itemCount: orderList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: height * 0.02, horizontal: width * 0.03),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              AutoText2(
-                                width: width * 0.6,
-                                text: "${orderList[index]['food_name']}",
-                                fontSize: 16,
-                                color: Colors.black,
-                                text_align: TextAlign.left,
-                                fontWeight: null,
-                              ),
-                              AutoText2(
-                                width: width * 0.6,
-                                text: "${orderList[index]['detail']}",
-                                fontSize: 16,
-                                color: Colors.grey,
-                                text_align: TextAlign.left,
-                                fontWeight: null,
-                              ),
-                            ],
+                          AutoText(
+                            width: width * 0.4,
+                            text: "$_order_id",
+                            fontSize: 16,
+                            color: Colors.black,
+                            text_align: TextAlign.left,
+                            fontWeight: FontWeight.w500,
                           ),
                           AutoText(
-                            width: width * 0.1,
-                            text: "${orderList[index]['amount']}",
+                            width: width * 0.2,
+                            text: "$_time",
                             fontSize: 16,
                             color: Colors.black,
                             text_align: TextAlign.right,
-                            fontWeight: null,
-                          ),
-                          AutoText(
-                            width: width * 0.1,
-                            text: "${orderList[index]['price']}",
-                            fontSize: 16,
-                            color: Colors.black,
-                            text_align: TextAlign.right,
-                            fontWeight: null,
+                            fontWeight: FontWeight.w500,
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.03, vertical: height * 0.01),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AutoText2(
-                          width: width * 0.6,
-                          text: "Total",
-                          fontSize: 20,
-                          color: Colors.black,
-                          text_align: TextAlign.left,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        AutoText(
-                          width: width * 0.1,
-                          text: "$sum_price",
-                          fontSize: 20,
-                          color: Colors.black,
-                          text_align: TextAlign.right,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return showBigSlip(img: slip_img);
-                      }));
-                    },
-                    child: Container(
-                        width: double.infinity,
-                        height: height * 0.2,
-                        child: Image.network(
-                          "$path_img/slip/$slip_img",
-                          fit: BoxFit.cover,
-                        )),
-                  ),
-                ],
-              ),
-              Container(
-                width: width,
-                height: height * 0.07,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        buildButton('Confirm', Colors.green, 0.38),
-                        buildButton('Cancel', Colors.red, 0.38),
-                      ],
+                    Container(
+                      height: height * 0.26,
+                      child: ListView.builder(
+                        itemCount: orderList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width * 0.03),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    AutoText2(
+                                      width: width * 0.6,
+                                      text: "${orderList[index]['food_name']}",
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      text_align: TextAlign.left,
+                                      fontWeight: null,
+                                    ),
+                                    AutoText2(
+                                      width: width * 0.6,
+                                      text: "${orderList[index]['detail']}",
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                      text_align: TextAlign.left,
+                                      fontWeight: null,
+                                    ),
+                                  ],
+                                ),
+                                AutoText(
+                                  width: width * 0.1,
+                                  text: "${orderList[index]['amount']}",
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  text_align: TextAlign.right,
+                                  fontWeight: null,
+                                ),
+                                AutoText(
+                                  width: width * 0.1,
+                                  text: "${orderList[index]['price']}",
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  text_align: TextAlign.right,
+                                  fontWeight: null,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                //buttom
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AutoText2(
+                            width: width * 0.6,
+                            text: "Total",
+                            fontSize: 20,
+                            color: Colors.black,
+                            text_align: TextAlign.left,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          AutoText(
+                            width: width * 0.14,
+                            text: "${sum_price}฿",
+                            fontSize: 20,
+                            color: Colors.green,
+                            text_align: TextAlign.right,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                    ),
+                    _slip_img == ""
+                        ? Container(
+                            width: width * 0.5,
+                            height: height * 0.07,
+                            child: Center(
+                              child: AutoText(
+                                width: width * 0.4,
+                                text: "เก็บปลายทาง",
+                                fontSize: 20,
+                                color: Colors.orange,
+                                text_align: TextAlign.center,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return showBigSlip(img: _slip_img);
+                              }));
+                            },
+                            child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: height * 0.01),
+                                width: double.infinity,
+                                height: height * 0.22,
+                                child: Image.network(
+                                  "$path_img/slip/$_slip_img",
+                                  fit: BoxFit.contain,
+                                )),
+                          ),
+                    Container(
+                      width: width,
+                      height: height * 0.07,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              buildButton('Confirm', Colors.green, 0.38),
+                              buildButton('Cancel', Colors.red, 0.38),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },

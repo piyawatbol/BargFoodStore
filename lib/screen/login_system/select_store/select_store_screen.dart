@@ -288,7 +288,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
         child: Center(
           child: AutoText(
             color: Color(0xFF527DAA),
-            fontSize: 24,
+            fontSize: 20,
             text: 'Add Store',
             text_align: TextAlign.center,
             width: width * 0.29,
@@ -321,7 +321,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
         child: Center(
           child: AutoText(
             color: Color(0xFF527DAA),
-            fontSize: 24,
+            fontSize: 20,
             text: 'Logout',
             text_align: TextAlign.center,
             width: width * 0.25,
