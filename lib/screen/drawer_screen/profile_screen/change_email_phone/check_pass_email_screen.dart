@@ -90,11 +90,11 @@ class _CheckPassEmailScreenState extends State<CheckPassEmailScreen> {
                             padding:
                                 EdgeInsets.symmetric(vertical: height * 0.04),
                             child: AutoText(
-                              width: width * 0.45,
+                          
                               text: "Enter Password",
                               fontSize: 24,
                               color: Colors.white,
-                              text_align: TextAlign.center,
+                          
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -122,12 +122,11 @@ class _CheckPassEmailScreenState extends State<CheckPassEmailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AutoText(
-            width: width * 0.15,
+          AutoText(  
             text: "Password",
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
+           
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
@@ -213,8 +212,7 @@ class _CheckPassEmailScreenState extends State<CheckPassEmailScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Continue',
-            text_align: TextAlign.center,
-            width: width * 0.25,
+           
             fontWeight: FontWeight.bold,
           ),
         ),

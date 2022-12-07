@@ -28,11 +28,11 @@ class BackArrowButton extends StatelessWidget {
             ),
           ),
           AutoText(
-            width: width * width2!,
+          
             text: "${text}",
             fontSize: 18,
             color: Colors.white,
-            text_align: TextAlign.left,
+          
             fontWeight: FontWeight.bold,
           )
         ],

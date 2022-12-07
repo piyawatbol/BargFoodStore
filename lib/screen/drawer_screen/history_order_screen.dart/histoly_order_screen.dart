@@ -8,14 +8,14 @@ import 'package:barg_store_app/widget/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AcceptedScreen extends StatefulWidget {
-  AcceptedScreen({Key? key}) : super(key: key);
+class HistoryOrderScreen extends StatefulWidget {
+  HistoryOrderScreen({Key? key}) : super(key: key);
 
   @override
-  State<AcceptedScreen> createState() => _AcceptedScreenState();
+  State<HistoryOrderScreen> createState() => _HistoryOrderScreenState();
 }
 
-class _AcceptedScreenState extends State<AcceptedScreen> {
+class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   String? store_id;
   List requestList = [];
   List orderList = [];
@@ -34,7 +34,8 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
     setState(() {
       store_id = preferences.getString('store_id');
     });
-    final response = await http.get(Uri.parse("$ipcon/get_request/$store_id"));
+    final response =
+        await http.get(Uri.parse("$ipcon/get_request_history/$store_id"));
     var data = json.decode(response.body);
     if (this.mounted) {
       setState(() {
@@ -81,7 +82,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              BackArrowButton(text: "Accepted Menu", width2: 0.35),
+              BackArrowButton(text: "History", width2: 0.35),
               buildListRequest()
             ],
           ),

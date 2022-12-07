@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:barg_store_app/screen/login_system/register_screen/confirm_email_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -131,18 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Container(
               width: width,
               height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478De0),
-                    Color(0xFF398AE5)
-                  ],
-                ),
-              ),
+              color: blue,
               child: SingleChildScrollView(
                 child: SafeArea(
                   child: Column(
@@ -155,8 +145,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
                           text: 'Register',
-                          text_align: TextAlign.center,
-                          width: width * 0.38,
                         ),
                       ),
                       Padding(
@@ -192,7 +180,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget BulidInputBox(String text, TextEditingController controller,
       IconData? icon, TextInputType? keyboardType, double? width_text) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -200,17 +187,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * width_text!,
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
           SizedBox(height: height * 0.007),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -224,16 +209,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: keyboardType,
               obscureText: bool == true ? true : false,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               controller: controller,
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   icon,
-                  color: Colors.white,
+                  color: blue,
                 ),
                 hintText: text,
-                hintStyle: TextStyle(color: Colors.white54),
+                hintStyle: TextStyle(color: blue),
                 contentPadding: EdgeInsets.only(top: 14),
                 border: InputBorder.none,
                 errorBorder: OutlineInputBorder(
@@ -252,7 +237,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget BulidInputBoxPass() {
-    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -262,18 +246,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Row(
               children: [
                 AutoText(
-                    width: width * 0.16,
                     text: "Password",
                     fontSize: 14,
                     color: Colors.white,
-                    text_align: TextAlign.left,
                     fontWeight: FontWeight.w600)
               ],
             ),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -287,7 +269,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: TextInputType.text,
               obscureText: pass,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               controller: pass_word,
               decoration: InputDecoration(
@@ -300,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         icon: Icon(
                           Icons.visibility_off,
-                          color: Colors.white,
+                          color: blue,
                         ))
                     : IconButton(
                         onPressed: () {
@@ -310,15 +292,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         icon: Icon(
                           Icons.visibility,
-                          color: Colors.white,
+                          color: blue,
                         ),
                       ),
                 prefixIcon: Icon(
                   Icons.lock,
-                  color: Colors.white,
+                  color: blue,
                 ),
                 hintText: "Password",
-                hintStyle: TextStyle(color: Colors.white54),
+                hintStyle: TextStyle(color: blue),
                 contentPadding: EdgeInsets.only(top: 14),
                 border: InputBorder.none,
                 errorBorder: OutlineInputBorder(
@@ -338,7 +320,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget buildRegisButton() {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.symmetric(vertical: height * 0.04),
       width: double.infinity,
@@ -356,11 +337,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Register',
-            text_align: TextAlign.center,
-            width: width * 0.18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -402,8 +381,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 text: 'Ok',
-                text_align: TextAlign.center,
-                width: width * 0.1,
               ),
             ),
           ),

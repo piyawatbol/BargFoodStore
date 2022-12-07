@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_local_variable, must_be_immutable
 import 'dart:convert';
+import 'package:barg_store_app/screen/drawer_screen/home_screen/cancel_order_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/home_screen/show_bid_slip.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -126,11 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: AutoText(
-          width: width * 0.4,
           text: "ORDER",
           fontSize: 22,
           color: Colors.white,
-          text_align: TextAlign.center,
           fontWeight: FontWeight.bold,
         ),
         bottom:
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
             widget.openDrawer();
           },
         ),
-        backgroundColor: Color(0xFF73AEF5),
+        backgroundColor: blue,
       ),
       body: Container(
         width: width,
@@ -216,19 +216,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AutoText(
-                              width: width * 0.4,
                               text: requestList[index]['order_id'],
                               fontSize: 16,
                               color: Colors.grey.shade800,
-                              text_align: TextAlign.left,
                               fontWeight: null,
                             ),
                             AutoText(
-                              width: width * 0.2,
                               text: requestList[index]['time'],
                               fontSize: 16,
                               color: Colors.grey.shade800,
-                              text_align: TextAlign.right,
                               fontWeight: null,
                             ),
                           ],
@@ -241,21 +237,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AutoText(
-                              width: width * 0.2,
                               text: "Item ",
                               fontSize: 16,
                               color: Colors.black54,
-                              text_align: TextAlign.left,
                               fontWeight: null,
                             ),
                             amoutList.isEmpty
                                 ? Text("")
                                 : AutoText(
-                                    width: width * 0.2,
                                     text: amoutList[index],
                                     fontSize: 16,
                                     color: Colors.black54,
-                                    text_align: TextAlign.right,
                                     fontWeight: FontWeight.bold,
                                   )
                           ],
@@ -268,21 +260,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AutoText(
-                              width: width * 0.2,
                               text: "Total ",
                               fontSize: 16,
                               color: Colors.black,
-                              text_align: TextAlign.left,
                               fontWeight: FontWeight.bold,
                             ),
                             amoutList.isEmpty
                                 ? Text("")
                                 : AutoText(
-                                    width: width * 0.2,
                                     text: '${priceList[index]}฿',
                                     fontSize: 16,
                                     color: Colors.green,
-                                    text_align: TextAlign.right,
                                     fontWeight: FontWeight.bold,
                                   ),
                           ],
@@ -344,11 +332,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     AutoText(
-                      width: width * 0.4,
                       text: "Order details",
                       fontSize: 20,
                       color: Colors.black,
-                      text_align: TextAlign.left,
                       fontWeight: FontWeight.bold,
                     ),
                     Padding(
@@ -358,19 +344,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AutoText(
-                            width: width * 0.4,
                             text: "$_order_id",
                             fontSize: 16,
                             color: Colors.black,
-                            text_align: TextAlign.left,
                             fontWeight: FontWeight.w500,
                           ),
                           AutoText(
-                            width: width * 0.2,
                             text: "$_time",
                             fontSize: 16,
                             color: Colors.black,
-                            text_align: TextAlign.right,
                             fontWeight: FontWeight.w500,
                           ),
                         ],
@@ -379,6 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       height: height * 0.26,
                       child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: orderList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
@@ -391,37 +374,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Column(
                                   children: [
                                     AutoText2(
-                                      width: width * 0.6,
                                       text: "${orderList[index]['food_name']}",
                                       fontSize: 16,
                                       color: Colors.black,
-                                      text_align: TextAlign.left,
                                       fontWeight: null,
                                     ),
                                     AutoText2(
-                                      width: width * 0.6,
                                       text: "${orderList[index]['detail']}",
                                       fontSize: 16,
                                       color: Colors.grey,
-                                      text_align: TextAlign.left,
                                       fontWeight: null,
                                     ),
                                   ],
                                 ),
                                 AutoText(
-                                  width: width * 0.1,
                                   text: "${orderList[index]['amount']}",
                                   fontSize: 16,
                                   color: Colors.black,
-                                  text_align: TextAlign.right,
                                   fontWeight: null,
                                 ),
                                 AutoText(
-                                  width: width * 0.1,
                                   text: "${orderList[index]['price']}",
                                   fontSize: 16,
                                   color: Colors.black,
-                                  text_align: TextAlign.right,
                                   fontWeight: null,
                                 ),
                               ],
@@ -441,19 +416,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AutoText2(
-                            width: width * 0.6,
                             text: "Total",
                             fontSize: 20,
                             color: Colors.black,
-                            text_align: TextAlign.left,
                             fontWeight: FontWeight.bold,
                           ),
                           AutoText(
-                            width: width * 0.14,
                             text: "${sum_price}฿",
                             fontSize: 20,
                             color: Colors.green,
-                            text_align: TextAlign.right,
                             fontWeight: FontWeight.bold,
                           ),
                         ],
@@ -465,11 +436,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: height * 0.07,
                             child: Center(
                               child: AutoText(
-                                width: width * 0.4,
                                 text: "เก็บปลายทาง",
                                 fontSize: 20,
                                 color: Colors.orange,
-                                text_align: TextAlign.center,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -541,16 +510,78 @@ class _HomeScreenState extends State<HomeScreen> {
             update_request();
           } else {
             Navigator.pop(context);
+            showdialogCancel();
           }
         },
         child: AutoText(
           color: Colors.white,
           fontSize: 16,
           text: '$text',
-          text_align: TextAlign.center,
-          width: width * 0.29,
           fontWeight: FontWeight.bold,
         ),
+      ),
+    );
+  }
+
+  showdialogCancel() {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Center(
+            child: Text(
+          "Do you want Cancel Order?",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        )),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return CancelORderScreen(
+                        request_id: request_id,
+                      );
+                    }));
+                  },
+                  child: Text('yes'),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.red,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('no'),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

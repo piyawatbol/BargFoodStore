@@ -5,6 +5,7 @@ import 'package:barg_store_app/screen/drawer_screen/setting_store_screen/edit_st
 import 'package:barg_store_app/screen/drawer_screen/setting_store_screen/map_picker.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -73,18 +74,7 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
         child: Container(
           width: width,
           height: height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF73AEF5),
-                Color(0xFF61A4F1),
-                Color(0xFF478De0),
-                Color(0xFF398AE5)
-              ],
-            ),
-          ),
+          color: blue,
           child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -97,11 +87,9 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
                     child: Row(
                       children: [
                         AutoText(
-                          width: width * 0.25,
                           text: "My Store",
                           fontSize: 22,
                           color: Colors.white,
-                          text_align: TextAlign.left,
                           fontWeight: FontWeight.bold,
                         ),
                       ],
@@ -204,19 +192,15 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
       child: Row(
         children: [
           AutoText(
-            width: width * width1!,
             text: "$text1",
             fontSize: 16,
             color: Colors.black87,
-            text_align: TextAlign.left,
             fontWeight: FontWeight.bold,
           ),
           AutoText2(
-            width: width * width2!,
             text: "${text2}",
             fontSize: 16,
             color: Colors.black87,
-            text_align: TextAlign.left,
             fontWeight: FontWeight.w400,
           ),
         ],
@@ -255,11 +239,9 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
                 child: storeList[0]['store_lat'] == null ||
                         storeList[0]['store_lat'] == ""
                     ? AutoText(
-                        width: width * 0.35,
                         text: "Please Pin the Store",
                         fontSize: 14,
                         color: Colors.black,
-                        text_align: TextAlign.center,
                         fontWeight: null)
                     : Stack(
                         children: [
@@ -330,11 +312,9 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
               },
               child: Center(
                 child: AutoText(
-                  color: Color(0xFF527DAA),
+                  color: blue,
                   fontSize: 14,
                   text: 'Edit Store',
-                  text_align: TextAlign.center,
-                  width: width * 0.29,
                   fontWeight: FontWeight.bold,
                 ),
               ),

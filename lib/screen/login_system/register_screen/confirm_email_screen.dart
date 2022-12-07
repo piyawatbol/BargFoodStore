@@ -171,11 +171,11 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: height * 0.05),
                         child: AutoText(
-                          width: width * 0.7,
+                         
                           text: "${widget.email}",
                           fontSize: 24,
                           color: Colors.white,
-                          text_align: TextAlign.center,
+                         
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -203,11 +203,11 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * 0.07,
+         
             text: "Otp",
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
+           
             fontWeight: FontWeight.w600,
           ),
           SizedBox(
@@ -251,7 +251,6 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
   }
 
   Widget buildSendAgain() {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return _Counter == 0
         ? TextButton(
@@ -266,17 +265,16 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
               fontSize: 14,
               fontWeight: null,
               text: 'send again',
-              text_align: TextAlign.center,
-              width: width * 0.18,
+             
             ))
         : Padding(
             padding: EdgeInsets.symmetric(vertical: height * 0.02),
             child: AutoText(
-              width: width * 0.31,
+            
               text: "Resend in $_Counter seconds",
               fontSize: 14,
               color: Colors.white,
-              text_align: TextAlign.center,
+             
               fontWeight: null,
             ),
           );
@@ -309,8 +307,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Continnue',
-            text_align: TextAlign.center,
-            width: width * 0.31,
+           
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -352,8 +349,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 text: 'Ok',
-                text_align: TextAlign.center,
-                width: width * 0.1,
+         
               ),
             ),
           ),

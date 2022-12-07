@@ -201,21 +201,21 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AutoText(
-            width: width * 0.17,
+         
             text: "Menu",
             fontSize: 22,
             color: Colors.white,
-            text_align: TextAlign.left,
+            
             fontWeight: FontWeight.bold,
           ),
           Row(
             children: [
               AutoText(
-                width: width * 0.16,
+               
                 text: "Status",
                 fontSize: 20,
                 color: Colors.white,
-                text_align: TextAlign.left,
+                
                 fontWeight: FontWeight.bold,
               ),
               Switch(
@@ -290,11 +290,11 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * width2!,
+        
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
+          
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: height * 0.004),
@@ -364,8 +364,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Save',
-            text_align: TextAlign.center,
-            width: width * 0.2,
+          
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -397,8 +396,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
             color: Colors.white,
             fontSize: 24,
             text: 'Delete',
-            text_align: TextAlign.center,
-            width: width * 0.2,
+     
             fontWeight: FontWeight.bold,
           ),
         ),

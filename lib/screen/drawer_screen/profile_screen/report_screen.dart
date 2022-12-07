@@ -83,11 +83,11 @@ class _ReportScreenState extends State<ReportScreen> {
                 child: Row(
                   children: [
                     AutoText(
-                      width: width * 0.37,
+                   
                       text: "Details Problem",
                       fontSize: 18,
                       color: Colors.white,
-                      text_align: TextAlign.left,
+                    
                       fontWeight: FontWeight.w700,
                     ),
                   ],
@@ -211,8 +211,7 @@ class _ReportScreenState extends State<ReportScreen> {
             color: Color(0xFF527DAA),
             fontSize: 14,
             text: 'Save',
-            text_align: TextAlign.center,
-            width: width * 0.29,
+           
             fontWeight: FontWeight.bold,
           ),
         ),

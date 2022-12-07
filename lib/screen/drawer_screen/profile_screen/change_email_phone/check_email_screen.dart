@@ -104,11 +104,11 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: height * 0.04),
                       child: AutoText(
-                        width: width * 0.6,
+                       
                         text: "Enter New Email",
                         fontSize: 30,
                         color: Colors.white,
-                        text_align: TextAlign.center,
+                      
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -134,11 +134,11 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * 0.1,
+           
             text: "Email",
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
+          
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
@@ -202,8 +202,7 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Continue',
-            text_align: TextAlign.center,
-            width: width * 0.25,
+          
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -73,18 +73,7 @@ class _MyPageState extends State<MyPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF73AEF5),
-              Color(0xFF61A4F1),
-              Color(0xFF478De0),
-              Color(0xFF398AE5)
-            ],
-          ),
-        ),
+        color: Colors.white54,
         child: Stack(
           children: [
             buildDrawer(),
@@ -146,25 +135,9 @@ class _MyPageState extends State<MyPage> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(isDrawerOpen ? 30 : 0),
                 child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: isDrawerOpen
-                            ? [
-                                Color.fromARGB(255, 156, 199, 251),
-                                Color.fromARGB(255, 113, 169, 233),
-                                Color.fromARGB(217, 93, 148, 214),
-                                Color.fromARGB(206, 76, 146, 225)
-                              ]
-                            : [
-                                Color(0xFF73AEF5),
-                                Color(0xFF61A4F1),
-                                Color(0xFF478De0),
-                                Color(0xFF398AE5)
-                              ],
-                      ),
-                    ),
+                    color: isDrawerOpen
+                        ? Colors.grey.shade300
+                        : Colors.grey.shade200,
                     child: getDrawerPage()),
               ),
             )),

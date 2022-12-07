@@ -1,14 +1,17 @@
 // ignore_for_file: deprecated_member_use, unused_local_variable, unnecessary_null_comparison
 import 'dart:convert';
+import 'package:barg_store_app/ipcon.dart';
+import 'package:barg_store_app/screen/drawer_screen/home_screen/home_screen.dart';
 import 'package:barg_store_app/screen/login_system/forget_screen/forget_password.dart';
 import 'package:barg_store_app/screen/login_system/register_screen/register_screen.dart';
 import 'package:barg_store_app/screen/login_system/select_store/select_store_screen.dart';
-import 'package:barg_store_app/widget/auto_size_text.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
-import 'package:barg_store_app/ipcon.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../widget/auto_size_text.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -94,18 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               width: width,
               height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478De0),
-                    Color(0xFF398AE5)
-                  ],
-                ),
-              ),
+              color: blue,
               child: SafeArea(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.08),
@@ -117,10 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               EdgeInsets.symmetric(vertical: height * 0.08),
                           child: AutoText(
                             text: "Login",
-                            width: width * 0.35,
-                            fontSize: 50,
+                            fontSize: 48,
                             color: Colors.white,
-                            text_align: TextAlign.center,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -150,11 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoText(
-          width: width * 0.18,
           text: "Username",
           fontSize: 16,
           color: Colors.white,
-          text_align: TextAlign.left,
           fontWeight: FontWeight.w600,
         ),
         SizedBox(
@@ -162,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Color(0xFF6CA8F1),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
               BoxShadow(
@@ -176,30 +164,31 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: user_name,
             obscureText: false,
             style: TextStyle(
-              color: Colors.white,
+              color: blue,
             ),
             decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                hintMaxLines: 1,
-                hintText: "Enter your Username",
-                hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
-                enabledBorder: userError == true
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 2.5),
-                        borderRadius: BorderRadius.circular(15),
-                      )
-                    : null,
-                focusedBorder: userError == true
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 2.5),
-                        borderRadius: BorderRadius.circular(15),
-                      )
-                    : null),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14),
+              prefixIcon: Icon(
+                Icons.person,
+                color: blue,
+              ),
+              hintMaxLines: 1,
+              hintText: "Enter your Username",
+              hintStyle: TextStyle(color: blue, fontSize: 14),
+              enabledBorder: userError == true
+                  ? OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red, width: 2.5),
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                  : null,
+              focusedBorder: userError == true
+                  ? OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red, width: 2.5),
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                  : null,
+            ),
           ),
         ),
         userError == true
@@ -219,11 +208,9 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoText(
-          width: width * 0.17,
           text: "Password",
           fontSize: 16,
           color: Colors.white,
-          text_align: TextAlign.left,
           fontWeight: FontWeight.w600,
         ),
         SizedBox(
@@ -231,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Color(0xFF6CA8F1),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
               BoxShadow(
@@ -245,14 +232,14 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: pass_word,
             obscureText: pass,
             style: TextStyle(
-              color: Colors.white,
+              color: blue,
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14),
               prefixIcon: Icon(
                 Icons.key,
-                color: Colors.white,
+                color: blue,
               ),
               suffixIcon: pass == true
                   ? IconButton(
@@ -277,17 +264,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
               hintText: "Enter your Password",
-              hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
+              hintStyle: TextStyle(color: blue, fontSize: 14),
               enabledBorder: passError == true
                   ? OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red, width: 2.5),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                     )
                   : null,
               focusedBorder: passError == true
                   ? OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red, width: 2.5),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                     )
                   : null,
             ),
@@ -321,8 +308,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white,
                 fontSize: 12,
                 text: 'Forget Password',
-                text_align: TextAlign.left,
-                width: width * 0.25,
                 fontWeight: FontWeight.w500,
               )),
         ],
@@ -373,11 +358,9 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Login',
-            text_align: TextAlign.center,
-            width: width * 0.18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -391,11 +374,9 @@ class _LoginScreenState extends State<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AutoText(
-          width: width * 0.33,
           text: "Don't have Accout?",
           fontSize: 14,
           color: Colors.white,
-          text_align: TextAlign.right,
           fontWeight: null,
         ),
         SizedBox(
@@ -403,21 +384,15 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return RegisterScreen();
-                },
-              ),
-            );
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return RegisterScreen();
+            }));
           },
           child: AutoText(
             color: Colors.white,
             fontSize: 14,
             text: 'Register',
-            text_align: TextAlign.left,
-            width: width * 0.15,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -434,7 +409,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Center(
             child: Text(
           "$text",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         )),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -460,13 +435,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   accept_email();
                 }
               },
-              child: AutoText(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                text: 'Ok',
-                text_align: TextAlign.center,
-                width: width * 0.1,
+              child: Container(
+                width: width * 0.5,
+                height: height * 0.05,
+                child: Center(
+                  child: AutoText(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    text: 'Ok',
+                  ),
+                ),
               ),
             ),
           ),

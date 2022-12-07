@@ -30,13 +30,17 @@ buildShowAlert(context, String? text) {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: AutoText(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              text: 'OK',
-              text_align: TextAlign.center,
-              width: width * 0.07,
+            child: Container(
+              width: width * 0.5,
+              height: height * 0.05,
+              child: Center(
+                child: AutoText(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  text: 'OK',
+                ),
+              ),
             ),
           ),
         ),

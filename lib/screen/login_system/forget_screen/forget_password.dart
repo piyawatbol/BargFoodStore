@@ -5,6 +5,7 @@ import 'package:barg_store_app/ipcon.dart';
 import 'package:barg_store_app/screen/login_system/forget_screen/check_otp_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -87,18 +88,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             Container(
               width: width,
               height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478De0),
-                    Color(0xFF398AE5)
-                  ],
-                ),
-              ),
+              color: blue,
               child: SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
@@ -107,11 +97,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: height * 0.035),
                         child: AutoText(
-                          width: width * 0.59,
                           text: "Forget Password",
                           fontSize: 30,
                           color: Colors.white,
-                          text_align: TextAlign.center,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -138,18 +126,16 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-              width: width * 0.09,
               text: "Email",
               fontSize: 14,
               color: Colors.white,
-              text_align: TextAlign.left,
               fontWeight: null),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.005,
           ),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -162,17 +148,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: TextFormField(
               controller: email,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(top: 14),
                   prefixIcon: Icon(
                     Icons.email,
-                    color: Colors.white,
+                    color: blue,
                   ),
                   hintText: "Enter your Email",
-                  hintStyle: TextStyle(color: Colors.white54)),
+                  hintStyle: TextStyle(color: blue)),
             ),
           )
         ],
@@ -211,11 +197,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Continue',
-            text_align: TextAlign.center,
-            width: width * 0.27,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -252,13 +236,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: AutoText(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                text: 'Ok',
-                text_align: TextAlign.center,
-                width: width * 0.1,
+              child: Container(
+                width: width * 0.5,
+                height: height * 0.05,
+                child: Center(
+                  child: AutoText(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    text: 'Ok',
+                  ),
+                ),
               ),
             ),
           ),

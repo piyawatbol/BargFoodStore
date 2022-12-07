@@ -144,11 +144,11 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
                         child: Row(
                           children: [
                             AutoText(
-                              width: width * 0.17,
+                           
                               text: "Menu",
                               fontSize: 22,
                               color: Colors.white,
-                              text_align: TextAlign.left,
+                              
                               fontWeight: FontWeight.bold,
                             ),
                           ],
@@ -236,11 +236,11 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * width2!,
+         
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
+           
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: height * 0.004),
@@ -301,8 +301,7 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
             color: Color(0xFF527DAA),
             fontSize: 14,
             text: 'Save',
-            text_align: TextAlign.center,
-            width: width * 0.13,
+           
             fontWeight: FontWeight.bold,
           ),
         ),

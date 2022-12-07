@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
+import 'package:barg_store_app/widget/loadingPage.dart';
+import 'package:barg_store_app/widget/show_aleart.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
@@ -9,58 +11,89 @@ import 'package:flutter/material.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   String? order_id;
-  String? rider_id;
   String? user_id;
   String? total;
   String? time;
+  String? requset_id;
+  String? status;
 
   OrderDetailScreen(
       {required this.order_id,
-      required this.rider_id,
       required this.user_id,
       required this.total,
-      required this.time});
+      required this.time,
+      required this.requset_id,
+      required this.status});
 
   @override
   State<OrderDetailScreen> createState() => _OrderDetailScreenState();
 }
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
+  List requestList = [];
   List orderList = [];
   List userList = [];
-  List riderList = [];
+  String? rider_id;
+  bool statusLoading = false;
+
+  get_request() async {
+    final response = await http
+        .get(Uri.parse("$ipcon/get_request_single/${widget.requset_id}"));
+    var data = json.decode(response.body);
+    if (this.mounted) {
+      setState(() {
+        requestList = data;
+      });
+    }
+    if (requestList.isNotEmpty) {
+      rider_id = requestList[0]['rider_id'];
+    }
+  }
+
   get_order() async {
     final response =
         await http.get(Uri.parse("$ipcon/get_order/${widget.order_id}"));
     var data = json.decode(response.body);
-    setState(() {
-      orderList = data;
-    });
-    // print(orderList);
+    if (this.mounted) {
+      setState(() {
+        orderList = data;
+      });
+    }
   }
 
   get_user() async {
     final response =
         await http.get(Uri.parse("$ipcon/get_user/${widget.user_id}"));
     var data = json.decode(response.body);
-    setState(() {
-      userList = data;
-    });
-    // print(userList);
+    if (this.mounted) {
+      setState(() {
+        userList = data;
+      });
+    }
   }
 
-  get_rider() async {
-    final response =
-        await http.get(Uri.parse("$ipcon/get_user/${widget.rider_id}"));
-    var data = json.decode(response.body);
-    setState(() {
-      riderList = data;
-    });
+  update_request() async {
+    final response = await http.post(
+      Uri.parse('$ipcon/update_request'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "request_id": widget.requset_id.toString(),
+        "status": "6",
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        statusLoading = false;
+      });
+      Navigator.pop(context);
+    }
   }
 
   @override
   void initState() {
-    get_rider();
     get_user();
     get_order();
     super.initState();
@@ -86,32 +119,40 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ],
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              BackArrowButton(text: "OrderDetail", width2: 0.3),
-              Container(
-                margin: EdgeInsets.all(11),
-                width: width,
-                height: height * 0.7,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: userList.isEmpty ||
-                            riderList.isEmpty ||
-                            orderList.isEmpty
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
-                            ),
-                          )
-                        : buildInfo()),
+        child: Stack(
+          children: [
+            SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    BackArrowButton(text: "OrderDetail", width2: 0.3),
+                    Container(
+                      margin: EdgeInsets.all(11),
+                      width: width,
+                      height: height * 0.7,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: userList.isEmpty || orderList.isEmpty
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.blue,
+                                ),
+                              )
+                            : buildInfo(),
+                      ),
+                    ),
+                    widget.status == '6' || widget.status == '7'
+                        ? Container()
+                        : buildButton("Send To Rider", Colors.green)
+                  ],
+                ),
               ),
-              buildButton("Send To Rider", Colors.green)
-            ],
-          ),
+            ),
+            LoadingPage(statusLoading: statusLoading)
+          ],
         ),
       ),
     );
@@ -120,173 +161,214 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget buildInfo() {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.01, horizontal: width * 0.01),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AutoText(
-                color: Color(0xff2F4F4F),
-                fontSize: 18,
-                text: '${widget.order_id}',
-                text_align: TextAlign.left,
-                width: width * 0.52,
-                fontWeight: FontWeight.w700,
-              ),
-              AutoText(
-                color: Color(0xff2F4F4F),
-                fontSize: 18,
-                text: '${widget.time}',
-                text_align: TextAlign.right,
-                width: width * 0.3,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: height * 0.01),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return FutureBuilder(
+      future: get_request(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              margin: EdgeInsets.only(right: width * 0.01),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Color(0xfff5f5f5),
-                  borderRadius: BorderRadius.circular(10)),
-              width: width * 0.43,
-              height: height * 0.12,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: height * 0.01, horizontal: width * 0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AutoText(
-                    color: Colors.black54,
-                    fontSize: 22,
-                    text: 'Rider Info ',
-                    text_align: TextAlign.left,
-                    width: width * 0.52,
-                    fontWeight: FontWeight.bold,
+                    color: Color(0xff2F4F4F),
+                    fontSize: 18,
+                    text: '${widget.order_id}',
+                  
+                    fontWeight: FontWeight.w700,
                   ),
-                  AutoText2(
-                    color: Colors.black54,
-                    fontSize: 14,
-                    text:
-                        '${riderList[0]['first_name']} ${riderList[0]['last_name']}',
-                    text_align: TextAlign.left,
-                    width: width * 0.41,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  AutoText2(
-                    color: Colors.black54,
-                    fontSize: 14,
-                    text: '${riderList[0]['phone']}',
-                    text_align: TextAlign.left,
-                    width: width * 0.41,
-                    fontWeight: FontWeight.bold,
+                  AutoText(
+                    color: Color(0xff2F4F4F),
+                    fontSize: 18,
+                    text: '${widget.time}',
+                  
+                    fontWeight: FontWeight.w700,
                   ),
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(right: width * 0.01),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Color(0xfff5f5f5),
-                  borderRadius: BorderRadius.circular(10)),
-              width: width * 0.42,
-              height: height * 0.12,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AutoText(
-                    color: Colors.black54,
-                    fontSize: 22,
-                    text: 'Customer Info ',
-                    text_align: TextAlign.left,
-                    width: width * 0.52,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  AutoText2(
-                    color: Colors.black54,
-                    fontSize: 14,
-                    text:
-                        '${userList[0]['first_name']} ${userList[0]['last_name']}',
-                    text_align: TextAlign.left,
-                    width: width * 0.41,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  AutoText2(
-                    color: Colors.black54,
-                    fontSize: 14,
-                    text: '${userList[0]['phone']}',
-                    text_align: TextAlign.left,
-                    width: width * 0.41,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.01, horizontal: width * 0.01),
-          child: AutoText(
-            color: Colors.black54,
-            fontSize: 22,
-            text: 'Order List',
-            text_align: TextAlign.left,
-            width: width * 0.52,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Container(
-            padding: EdgeInsets.all(10),
-            width: width,
-            height: height * 0.43,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color(0xfff5f5f5),
-            ),
-            child: Column(
+            SizedBox(height: height * 0.01),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildListOrder(),
-                Row(
-                  children: [
-                    AutoText(
-                      color: Colors.black,
-                      fontSize: 22,
-                      text: 'Total',
-                      text_align: TextAlign.left,
-                      width: width * 0.52,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    AutoText(
-                      color: Colors.green.shade600,
-                      fontSize: 22,
-                      text: '${widget.total}฿',
-                      text_align: TextAlign.right,
-                      width: width * 0.3,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ],
-                )
+                requestList.isEmpty
+                    ? Container(
+                        margin: EdgeInsets.only(right: width * 0.01),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Color(0xfff5f5f5),
+                            borderRadius: BorderRadius.circular(10)),
+                        width: width * 0.43,
+                        height: height * 0.12,
+                        child: Center(
+                          child: AutoText(
+                            color: Colors.black54,
+                            fontSize: 22,
+                            text: 'Waiting Rider',
+                           
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        margin: EdgeInsets.only(right: width * 0.01),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Color(0xfff5f5f5),
+                            borderRadius: BorderRadius.circular(10)),
+                        width: width * 0.43,
+                        height: height * 0.12,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            requestList[0]['user_image'] == ''
+                                ? CircleAvatar(
+                                    radius: width * 0.05,
+                                    backgroundImage:
+                                        AssetImage('assets/images/profile.png'),
+                                  )
+                                : CircleAvatar(
+                                    radius: width * 0.05,
+                                    backgroundImage: NetworkImage(
+                                        '$path_img/users/${requestList[0]['user_image']}'),
+                                  ),
+                            AutoText2(
+                              color: Colors.black54,
+                              fontSize: 14,
+                              text:
+                                  '${requestList[0]['first_name']} ${requestList[0]['last_name']}',
+                         
+                              fontWeight: FontWeight.bold,
+                            ),
+                            AutoText2(
+                              color: Colors.black54,
+                              fontSize: 14,
+                              text: 'Tel : ${requestList[0]['phone']}',
+                              
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
+                      ),
+                Container(
+                  margin: EdgeInsets.only(right: width * 0.01),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Color(0xfff5f5f5),
+                      borderRadius: BorderRadius.circular(10)),
+                  width: width * 0.42,
+                  height: height * 0.12,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AutoText(
+                        color: Colors.black54,
+                        fontSize: 22,
+                        text: 'Customer',
+                      
+                        fontWeight: FontWeight.bold,
+                      ),
+                      AutoText2(
+                        color: Colors.black54,
+                        fontSize: 14,
+                        text:
+                            '${userList[0]['first_name']} ${userList[0]['last_name']}',
+                      
+                        fontWeight: FontWeight.bold,
+                      ),
+                      AutoText2(
+                        color: Colors.black54,
+                        fontSize: 14,
+                        text: 'Tel : ${userList[0]['phone']}',
+                 
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
               ],
-            ))
-      ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: height * 0.01, horizontal: width * 0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AutoText(
+                    color: Colors.black54,
+                    fontSize: 22,
+                    text: 'Order List',
+                   
+                    fontWeight: FontWeight.bold,
+                  ),
+                  requestList.isEmpty
+                      ? Text('')
+                      : requestList[0]['slip_img'] == ''
+                          ? AutoText(
+                              color: Colors.black54,
+                              fontSize: 22,
+                              text: 'ปลายทาง',
+                              
+                              fontWeight: FontWeight.bold,
+                            )
+                          : AutoText(
+                              color: Colors.black54,
+                              fontSize: 22,
+                              text: 'OR Code ',
+                             
+                              fontWeight: FontWeight.bold,
+                            ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              width: width,
+              height: height * 0.43,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xfff5f5f5),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildListOrder(),
+                  Row(
+                    children: [
+                      AutoText(
+                        color: Colors.black,
+                        fontSize: 22,
+                        text: 'Total',
+                       
+                        fontWeight: FontWeight.bold,
+                      ),
+                      AutoText(
+                        color: Colors.green.shade600,
+                        fontSize: 22,
+                        text: '${widget.total}฿',
+                        
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
   Widget buildListOrder() {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Expanded(
         child: ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       itemCount: orderList.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
@@ -297,24 +379,21 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 color: Colors.black,
                 fontSize: 16,
                 text: '${orderList[index]['food_name']}',
-                text_align: TextAlign.left,
-                width: width * 0.55,
+            
                 fontWeight: FontWeight.w500,
               ),
               AutoText(
                 color: Colors.black,
                 fontSize: 16,
                 text: '${orderList[index]['amount']}',
-                text_align: TextAlign.right,
-                width: width * 0.1,
+              
                 fontWeight: FontWeight.w500,
               ),
               AutoText(
                   color: Colors.black,
                   fontSize: 16,
                   text: '${orderList[index]['price']}',
-                  text_align: TextAlign.right,
-                  width: width * 0.16,
+               
                   fontWeight: FontWeight.w500),
             ],
           ),
@@ -339,13 +418,21 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             borderRadius: BorderRadius.all(Radius.circular(30)),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          if (rider_id != null) {
+            setState(() {
+              statusLoading = true;
+            });
+            update_request();
+          } else {
+            buildShowAlert(context, "Rider Not Accept");
+          }
+        },
         child: AutoText(
           color: Colors.white,
           fontSize: 16,
           text: '$text',
-          text_align: TextAlign.center,
-          width: width * 0.29,
+        
           fontWeight: FontWeight.bold,
         ),
       ),

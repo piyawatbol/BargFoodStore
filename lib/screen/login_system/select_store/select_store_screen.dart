@@ -5,6 +5,7 @@ import 'package:barg_store_app/screen/login_system/login_screen.dart';
 import 'package:barg_store_app/screen/login_system/select_store/add_store_screen.dart';
 import 'package:barg_store_app/screen/myPage.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -59,18 +60,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
       body: Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF73AEF5),
-              Color(0xFF61A4F1),
-              Color(0xFF478De0),
-              Color(0xFF398AE5)
-            ],
-          ),
-        ),
+        color: blue,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -78,11 +68,9 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: height * 0.03),
                   child: AutoText(
-                    width: width * 0.5,
                     text: "Select Your Store",
-                    fontSize: 50,
+                    fontSize: 34,
                     color: Colors.white,
-                    text_align: TextAlign.center,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -146,16 +134,16 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                             margin: EdgeInsets.symmetric(
                               vertical: height * 0.005,
                             ),
-                            height: 160,
+                            height: height * 0.18,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black12,
-                                  spreadRadius: 5,
-                                  blurRadius: 4,
-                                  offset: Offset(2, 4),
+                                  spreadRadius: 3,
+                                  blurRadius: 3,
+                                  offset: Offset(2, 2),
                                 ),
                               ],
                             ),
@@ -166,7 +154,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: width * 0.4,
+                                    width: width * 0.35,
                                     height: height * 0.25,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
@@ -177,7 +165,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: width * 0.4,
+                                    width: width * 0.45,
                                     height: height * 0.2,
                                     child: SingleChildScrollView(
                                       child: Column(
@@ -245,20 +233,19 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
     return Row(
       children: [
         AutoText(
-          width: width * width1!,
           text: text1,
           fontSize: 14,
           color: Colors.black,
-          text_align: TextAlign.left,
           fontWeight: null,
         ),
-        AutoText2(
-          width: width * width2!,
-          text: text2,
-          fontSize: 14,
-          color: Colors.grey,
-          text_align: TextAlign.left,
-          fontWeight: null,
+        Container(
+          width: text1 == 'Store number : ' ? width * 0.16 : width * 0.27,
+          child: AutoText2(
+            text: text2,
+            fontSize: 14,
+            color: Colors.grey,
+            fontWeight: null,
+          ),
         ),
       ],
     );
@@ -287,11 +274,9 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 20,
             text: 'Add Store',
-            text_align: TextAlign.center,
-            width: width * 0.29,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -320,11 +305,9 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 20,
             text: 'Logout',
-            text_align: TextAlign.center,
-            width: width * 0.25,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -128,7 +128,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildName() {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: height * 0.015),
@@ -137,31 +136,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           userList.isEmpty
               ? buildLoadingName(0.45)
               : AutoText(
-                  width: width * 0.65,
                   text:
                       "${userList[0]['first_name']} ${userList[0]['last_name']}",
                   fontSize: 20,
                   color: Colors.white,
-                  text_align: TextAlign.center,
                   fontWeight: FontWeight.bold,
                 ),
           userList.isEmpty
               ? buildLoadingName(0.3)
               : AutoText(
-                  width: width * 0.65,
                   text: "${userList[0]['email']}",
                   fontSize: 12,
                   color: Colors.grey.shade300,
-                  text_align: TextAlign.center,
                   fontWeight: FontWeight.bold),
           userList.isEmpty
               ? buildLoadingName(0.2)
               : AutoText(
-                  width: width * 0.65,
                   text: "${userList[0]['phone']}",
                   fontSize: 12,
                   color: Colors.grey.shade300,
-                  text_align: TextAlign.center,
                   fontWeight: FontWeight.bold,
                 )
         ],
@@ -203,8 +196,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Color(0xFF527DAA),
                   fontSize: 14,
                   text: 'Edit profile',
-                  text_align: TextAlign.center,
-                  width: width * 0.29,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -238,13 +229,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AutoText(
-                    color: Color(0xFF527DAA),
-                    fontSize: 16,
-                    text: 'Report',
-                    text_align: TextAlign.center,
-                    width: width * 0.29,
-                    fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      SizedBox(width: width * 0.03),
+                      AutoText(
+                        color: Color(0xFF527DAA),
+                        fontSize: 16,
+                        text: 'Report',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
@@ -279,13 +273,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AutoText(
-                    color: Color(0xFF527DAA),
-                    fontSize: 16,
-                    text: 'Logout',
-                    text_align: TextAlign.center,
-                    width: width * 0.29,
-                    fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      SizedBox(width: width * 0.03),
+                      AutoText(
+                        color: Color(0xFF527DAA),
+                        fontSize: 16,
+                        text: 'Logout',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
                   ),
                   Icon(
                     Icons.arrow_forward_ios,

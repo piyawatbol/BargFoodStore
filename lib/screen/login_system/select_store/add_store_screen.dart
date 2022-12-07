@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_aleart.dart';
 import 'package:barg_store_app/widget/show_modol_img.dart';
@@ -123,18 +124,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         body: Container(
           width: width,
           height: height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF73AEF5),
-                Color(0xFF61A4F1),
-                Color(0xFF478De0),
-                Color(0xFF398AE5)
-              ],
-            ),
-          ),
+          color: blue,
           child: Stack(
             children: [
               SingleChildScrollView(
@@ -197,7 +187,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
               ], color: Colors.white, borderRadius: BorderRadius.circular(15)),
               child: Image.asset(
                 "assets/images/add.png",
-                color: Colors.blue,
+                color: blue,
               ))
           : Container(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -231,11 +221,9 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * width2!,
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
             fontWeight: FontWeight.w500,
           ),
           SizedBox(height: height * 0.005),
@@ -288,16 +276,13 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Add Store',
-            text_align: TextAlign.center,
-            width: width * 0.31,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
     );
   }
-  
 }

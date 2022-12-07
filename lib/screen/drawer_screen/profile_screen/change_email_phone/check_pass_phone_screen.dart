@@ -85,11 +85,11 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
                           padding:
                               EdgeInsets.symmetric(vertical: height * 0.04),
                           child: AutoText(
-                            width: width * 0.45,
+                         
                             text: "Enter Password",
                             fontSize: 24,
                             color: Colors.white,
-                            text_align: TextAlign.center,
+                         
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -117,11 +117,11 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * 0.15,
+          
             text: "Password",
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
+          
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
@@ -207,8 +207,7 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Continue',
-            text_align: TextAlign.center,
-            width: width * 0.25,
+           
             fontWeight: FontWeight.bold,
           ),
         ),

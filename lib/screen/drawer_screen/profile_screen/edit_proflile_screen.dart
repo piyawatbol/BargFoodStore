@@ -7,6 +7,7 @@ import 'package:barg_store_app/screen/drawer_screen/profile_screen/change_email_
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/change_email_phone/check_pass_phone_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_modol_img.dart';
 import 'package:flutter/services.dart';
@@ -130,18 +131,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Container(
               width: width,
               height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478De0),
-                    Color(0xFF398AE5)
-                  ],
-                ),
-              ),
+              color: blue,
               child: SingleChildScrollView(
                 child: SafeArea(
                     child: Column(
@@ -156,11 +146,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Row(
                         children: [
                           AutoText(
-                              width: width * 0.3,
                               text: "My Profile",
                               fontSize: 28,
                               color: Colors.white,
-                              text_align: TextAlign.left,
                               fontWeight: FontWeight.bold),
                         ],
                       ),
@@ -245,11 +233,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-              width: width * 0.17,
               text: text,
               fontSize: 14,
               color: Colors.white,
-              text_align: TextAlign.left,
               fontWeight: FontWeight.w600),
           Container(
             margin: EdgeInsets.symmetric(vertical: height * 0.002),
@@ -308,11 +294,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * 0.11,
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
             fontWeight: FontWeight.w600,
           ),
           Container(
@@ -397,13 +381,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             color: Color(0xFF527DAA),
             fontSize: 14,
             text: 'Save',
-            text_align: TextAlign.center,
-            width: width * 0.29,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
     );
   }
-  
 }

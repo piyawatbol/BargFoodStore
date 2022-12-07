@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:barg_store_app/screen/login_system/login_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -65,18 +66,7 @@ class _ResetScreenState extends State<ResetScreen> {
             Container(
               width: width,
               height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478De0),
-                    Color(0xFF398AE5)
-                  ],
-                ),
-              ),
+              color: blue,
               child: SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
@@ -85,11 +75,9 @@ class _ResetScreenState extends State<ResetScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: height * 0.04),
                         child: AutoText(
-                          width: width * 0.5,
                           text: "Reset Password",
                           fontSize: 30,
                           color: Colors.white,
-                          text_align: TextAlign.center,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -119,17 +107,15 @@ class _ResetScreenState extends State<ResetScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * width2!,
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -142,17 +128,17 @@ class _ResetScreenState extends State<ResetScreen> {
             child: TextFormField(
               controller: controller,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(top: 14),
                   prefixIcon: Icon(
                     Icons.lock,
-                    color: Colors.white,
+                    color: blue,
                   ),
                   hintText: "$text",
-                  hintStyle: TextStyle(color: Colors.white54)),
+                  hintStyle: TextStyle(color: blue)),
             ),
           )
         ],
@@ -188,11 +174,9 @@ class _ResetScreenState extends State<ResetScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Continnue',
-            text_align: TextAlign.center,
-            width: width * 0.31,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -234,8 +218,6 @@ class _ResetScreenState extends State<ResetScreen> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 text: 'Ok',
-                text_align: TextAlign.center,
-                width: width * 0.1,
               ),
             ),
           ),

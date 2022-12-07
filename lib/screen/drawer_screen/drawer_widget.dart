@@ -1,12 +1,14 @@
 // ignore_for_file: must_be_immutable
 import 'package:barg_store_app/ipcon.dart';
 import 'package:barg_store_app/screen/drawer_screen/accepted_screen/accepted_screen.dart';
+import 'package:barg_store_app/screen/drawer_screen/history_order_screen.dart/histoly_order_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/profile_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/setting_menu_screen/setting_menu_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/setting_store_screen/setting_store_screen.dart';
 import 'package:barg_store_app/screen/login_system/login_screen.dart';
 import 'package:barg_store_app/screen/login_system/select_store/select_store_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,22 +30,31 @@ class DrawerWidget extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Container(
       padding: EdgeInsets.symmetric(
-          vertical: height * 0.01, horizontal: width * 0.035),
+          vertical: height * 0.01, horizontal: width * 0.03),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: height * 0.055),
           buildUsername(context),
-          SizedBox(height: height * 0.02),
+          SizedBox(height: height * 0.012),
+          Container(
+            width: width * 0.51,
+            color: blue,
+            height: 1,
+          ),
+
           buildDrawerItems(context), //only Home
           BuildListTile(context, "assets/images/fast-delivery.png",
               "Accepted List", AcceptedScreen(), 0.25),
+          BuildListTile(context, "assets/images/clock.png", "History Order",
+              HistoryOrderScreen(), 0.25),
           BuildListTile(context, "assets/images/menu.png", "Setting Menu",
               SettingMenuScreen(), 0.25),
+
           BuildListTile(context, "assets/images/settings.png", "Setting Store",
               SettingStoreScreen(), 0.24),
           SizedBox(height: height * 0.025),
-          Divider(height: 10, color: Colors.white),
+          Divider(height: 10, color: blue),
 
           BuildListTile(context, "assets/images/change.png", "Change Store",
               SelectStoreScreen(), 0.24),
@@ -62,7 +73,8 @@ class DrawerWidget extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return Padding(
           padding: EdgeInsets.symmetric(
-              vertical: height * 0.01, horizontal: width * 0.01),
+            vertical: height * 0.01,
+          ),
           child: userList.isEmpty
               ? Padding(
                   padding: EdgeInsets.symmetric(),
@@ -70,7 +82,7 @@ class DrawerWidget extends StatelessWidget {
                       backgroundColor: Colors.blue.shade200,
                       radius: width * 0.06,
                       child: CircularProgressIndicator(
-                        color: Colors.white,
+                        color: blue,
                       )),
                 )
               : GestureDetector(
@@ -86,7 +98,7 @@ class DrawerWidget extends StatelessWidget {
                         userList[0]['user_image'] == ""
                             ? CircleAvatar(
                                 radius: width * 0.078,
-                                backgroundColor: Colors.white,
+                                backgroundColor: blue,
                                 child: CircleAvatar(
                                   radius: width * 0.07,
                                   backgroundImage:
@@ -95,7 +107,7 @@ class DrawerWidget extends StatelessWidget {
                               )
                             : CircleAvatar(
                                 radius: width * 0.078,
-                                backgroundColor: Colors.white,
+                                backgroundColor: blue,
                                 child: CircleAvatar(
                                   radius: width * 0.07,
                                   backgroundColor: Colors.white,
@@ -107,27 +119,27 @@ class DrawerWidget extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                        SizedBox(width: width * 0.02),
-                        Column(
-                          children: [
-                            AutoText2(
-                              width: width * 0.35,
-                              text:
-                                  "${userList[0]['first_name']} ${userList[0]['last_name']}",
-                              fontSize: 16,
-                              color: Colors.white,
-                              text_align: TextAlign.left,
-                              fontWeight: null,
-                            ),
-                            AutoText2(
-                              width: width * 0.35,
-                              text: "${userList[0]['email']}",
-                              fontSize: 14,
-                              color: Colors.grey.shade300,
-                              text_align: TextAlign.left,
-                              fontWeight: null,
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AutoText2(
+                                text:
+                                    "${userList[0]['first_name']} ${userList[0]['last_name']}",
+                                fontSize: 16,
+                                color: blue,
+                                fontWeight: null,
+                              ),
+                              AutoText2(
+                                text: "${userList[0]['email']}",
+                                fontSize: 14,
+                                color: blue,
+                                fontWeight: null,
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -166,16 +178,14 @@ class DrawerWidget extends StatelessWidget {
                 "$img",
                 width: width * 0.08,
                 height: height * 0.08,
-                color: Colors.white,
+                color: blue,
               ),
               SizedBox(width: width * 0.055),
               AutoText(
-                color: Colors.white,
+                color: blue,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 text: '$title',
-                text_align: TextAlign.left,
-                width: width * width2!,
               ),
             ],
           ),
@@ -201,16 +211,14 @@ class DrawerWidget extends StatelessWidget {
                       item.img,
                       width: width * 0.08,
                       height: height * 0.08,
-                      color: Colors.white,
+                      color: blue,
                     ),
                     SizedBox(width: width * 0.055),
                     AutoText(
-                      color: Colors.white,
+                      color: blue,
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       text: item.title,
-                      text_align: TextAlign.left,
-                      width: width * 0.12,
                     ),
                   ],
                 ),

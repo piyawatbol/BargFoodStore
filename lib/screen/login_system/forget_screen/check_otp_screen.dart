@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:barg_store_app/screen/login_system/forget_screen/reset_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -133,11 +134,9 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: height * 0.05),
                         child: AutoText(
-                          width: width * 0.7,
                           text: "${widget.email}",
                           fontSize: 24,
                           color: Colors.white,
-                          text_align: TextAlign.center,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -165,11 +164,9 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * 0.07,
             text: "Otp",
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(
@@ -177,7 +174,7 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -192,18 +189,18 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
               controller: otp,
               obscureText: false,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14),
                 prefixIcon: Icon(
                   Icons.person,
-                  color: Colors.white,
+                  color: blue,
                 ),
                 hintMaxLines: 1,
                 hintText: "Enter your otp",
-                hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
+                hintStyle: TextStyle(color: blue, fontSize: 14),
               ),
             ),
           )
@@ -213,7 +210,6 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
   }
 
   Widget buildSendAgain() {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return _Counter == 0
         ? TextButton(
@@ -228,17 +224,13 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
               fontSize: 14,
               fontWeight: null,
               text: 'send again',
-              text_align: TextAlign.center,
-              width: width * 0.18,
             ))
         : Padding(
             padding: EdgeInsets.symmetric(vertical: height * 0.02),
             child: AutoText(
-              width: width * 0.31,
               text: "Resend in $_Counter seconds",
               fontSize: 14,
               color: Colors.white,
-              text_align: TextAlign.center,
               fontWeight: null,
             ),
           );
@@ -271,8 +263,6 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Continnue',
-            text_align: TextAlign.center,
-            width: width * 0.31,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -309,13 +299,17 @@ class _CheckOtpScreenState extends State<CheckOtpScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: AutoText(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                text: 'Ok',
-                text_align: TextAlign.center,
-                width: width * 0.1,
+              child: Container(
+                width: width * 0.5,
+                height: height * 0.05,
+                child: Center(
+                  child: AutoText(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    text: 'Ok',
+                  ),
+                ),
               ),
             ),
           ),

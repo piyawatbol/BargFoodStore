@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_modol_img.dart';
 import 'package:http/http.dart' as http;
@@ -146,18 +147,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
             Container(
               width: width,
               height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478De0),
-                    Color(0xFF398AE5)
-                  ],
-                ),
-              ),
+              color: blue,
               child: SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
@@ -170,11 +160,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         child: Row(
                           children: [
                             AutoText(
-                              width: width * 0.25,
                               text: "My Store",
                               fontSize: 22,
                               color: Colors.white,
-                              text_align: TextAlign.left,
                               fontWeight: FontWeight.bold,
                             ),
                           ],
@@ -257,11 +245,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-            width: width * 0.26,
             text: text,
             fontSize: 14,
             color: Colors.white,
-            text_align: TextAlign.left,
             fontWeight: FontWeight.bold,
           ),
           SizedBox(height: height * 0.004),
@@ -322,11 +308,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 14,
             text: 'Save',
-            text_align: TextAlign.center,
-            width: width * 0.29,
             fontWeight: FontWeight.bold,
           ),
         ),

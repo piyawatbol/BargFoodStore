@@ -3,6 +3,7 @@ import 'package:barg_store_app/screen/drawer_screen/setting_menu_screen/add_menu
 import 'package:barg_store_app/screen/drawer_screen/setting_menu_screen/edit_menu_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
 import 'package:flutter/material.dart';
@@ -43,18 +44,7 @@ class _SettingMenuScreenState extends State<SettingMenuScreen> {
       body: Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF73AEF5),
-              Color(0xFF61A4F1),
-              Color(0xFF478De0),
-              Color(0xFF398AE5)
-            ],
-          ),
-        ),
+        color: blue,
         child: SafeArea(
           child: Column(
             children: [
@@ -169,7 +159,6 @@ class _SettingMenuScreenState extends State<SettingMenuScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         AutoText3(
-                                          width: width * 0.5,
                                           text:
                                               "${foodList[index]['food_name']}",
                                           fontSize: 16,
@@ -178,23 +167,18 @@ class _SettingMenuScreenState extends State<SettingMenuScreen> {
                                                   1
                                               ? Colors.black
                                               : Colors.black38,
-                                          text_align: TextAlign.left,
                                           fontWeight: FontWeight.w400,
                                         ),
                                         AutoText3(
-                                          width: width * 0.5,
                                           text: "${foodList[index]['detail']}",
                                           fontSize: 14,
                                           color: Colors.grey,
-                                          text_align: TextAlign.left,
                                           fontWeight: FontWeight.w400,
                                         ),
                                         AutoText3(
-                                          width: width * 0.5,
                                           text: "฿ ${foodList[index]['price']}",
                                           fontSize: 15,
                                           color: Colors.green,
-                                          text_align: TextAlign.left,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ],
