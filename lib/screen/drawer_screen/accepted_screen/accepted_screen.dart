@@ -19,15 +19,10 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
   String? store_id;
   List requestList = [];
   List orderList = [];
-  List order_List = [];
   bool show = false;
   int sum_price = 0;
   String? request_id;
   bool statusLoading = false;
-  List amountList = [];
-  List priceList = [];
-  int sum_amount = 0;
-  int sum_pirce = 0;
 
   get_request() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -40,32 +35,6 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
       setState(() {
         requestList = data;
       });
-    }
-  }
-
-  get_sum_amout_price(String? _order_id, index) async {
-    final response = await http.get(Uri.parse("$ipcon/get_order/$_order_id"));
-    var data = json.decode(response.body);
-    if (this.mounted) {
-      setState(() {
-        order_List = data;
-        sum_amount = 0;
-        sum_pirce = 0;
-      });
-    }
-    for (var i = 0; i < order_List.length; i++) {
-      int amount = int.parse(order_List[i]['amount']);
-      int price = int.parse(order_List[i]['price']);
-
-      sum_amount = sum_amount + amount;
-      sum_pirce = sum_pirce + price;
-    }
-    if (amountList.length < requestList.length) {
-      amountList.add('$sum_amount');
-      priceList.add('$sum_pirce');
-    } else {
-      amountList[index] = sum_amount.toString();
-      priceList[index] = sum_pirce.toString();
     }
   }
 
@@ -100,16 +69,11 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
           child: ListView.builder(
             itemCount: requestList.length,
             itemBuilder: (BuildContext context, int index) {
-              get_sum_amout_price(requestList[index]['order_id'], index);
               return GestureDetector(
                 onTap: () async {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
                     return OrderDetailScreen(
-                      order_id: '${requestList[index]['order_id']}',
-                      user_id: '${requestList[index]['user_id']}',
-                      total: '${priceList[index]}',
-                      time: '${requestList[index]['time']}',
                       requset_id: '${requestList[index]['request_id']}',
                       status: '${requestList[index]['status']}',
                     );
@@ -120,7 +84,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.035, vertical: height * 0.005),
                   width: width,
-                  height: height * 0.2,
+                  height: height * 0.16,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -168,12 +132,10 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                           requestList[index]['slip_img'] != ''
                               ? 'QR Code'
                               : "ปลายทาง"),
-                      buildRowText(index, 'item',
-                          amountList.isEmpty ? '' : '${amountList[index]}'),
                       buildRowText(
                         index,
                         'Total',
-                        amountList.isEmpty ? '' : '${priceList[index]}฿',
+                        '${requestList[index]['total']}฿',
                       ),
                     ],
                   ),

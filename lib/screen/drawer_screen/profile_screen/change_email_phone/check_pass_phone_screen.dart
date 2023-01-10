@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/change_email_phone/check_phone_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_aleart.dart';
 import 'package:http/http.dart' as http;
@@ -85,11 +86,9 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
                           padding:
                               EdgeInsets.symmetric(vertical: height * 0.04),
                           child: AutoText(
-                         
                             text: "Enter Password",
                             fontSize: 24,
                             color: Colors.white,
-                         
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -117,17 +116,15 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-          
             text: "Password",
             fontSize: 14,
             color: Colors.white,
-          
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -141,7 +138,7 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
               obscureText: pass,
               controller: pass_word,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               decoration: InputDecoration(
                   suffixIcon: pass == true
@@ -153,7 +150,7 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
                           },
                           icon: Icon(
                             Icons.visibility_off,
-                            color: Colors.white,
+                            color: blue,
                           ))
                       : IconButton(
                           onPressed: () {
@@ -163,16 +160,16 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
                           },
                           icon: Icon(
                             Icons.visibility,
-                            color: Colors.white,
+                            color: blue,
                           )),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(top: 14),
                   prefixIcon: Icon(
                     Icons.key,
-                    color: Colors.white,
+                    color: blue,
                   ),
                   hintText: "Enter your Password",
-                  hintStyle: TextStyle(color: Colors.white54)),
+                  hintStyle: TextStyle(color: blue)),
             ),
           )
         ],
@@ -204,10 +201,9 @@ class _CheckPassPhoneScreenState extends State<CheckPassPhoneScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Continue',
-           
             fontWeight: FontWeight.bold,
           ),
         ),

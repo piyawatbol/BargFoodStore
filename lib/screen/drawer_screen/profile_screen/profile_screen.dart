@@ -7,6 +7,7 @@ import 'package:barg_store_app/screen/drawer_screen/profile_screen/show_big_img.
 import 'package:barg_store_app/screen/login_system/login_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,18 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF73AEF5),
-              Color(0xFF61A4F1),
-              Color(0xFF478De0),
-              Color(0xFF398AE5)
-            ],
-          ),
-        ),
+        color: blue,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -138,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               : AutoText(
                   text:
                       "${userList[0]['first_name']} ${userList[0]['last_name']}",
-                  fontSize: 20,
+                  fontSize: 26,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
@@ -193,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               child: Center(
                 child: AutoText(
-                  color: Color(0xFF527DAA),
+                  color: blue,
                   fontSize: 14,
                   text: 'Edit profile',
                   fontWeight: FontWeight.bold,
@@ -233,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       SizedBox(width: width * 0.03),
                       AutoText(
-                        color: Color(0xFF527DAA),
+                        color: blue,
                         fontSize: 16,
                         text: 'Report',
                         fontWeight: FontWeight.bold,
@@ -242,7 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: Color(0xFF527DAA),
+                    color: blue,
                   )
                 ],
               ),
@@ -277,7 +267,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       SizedBox(width: width * 0.03),
                       AutoText(
-                        color: Color(0xFF527DAA),
+                        color: blue,
                         fontSize: 16,
                         text: 'Logout',
                         fontWeight: FontWeight.bold,
@@ -286,7 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: Color(0xFF527DAA),
+                    color: blue,
                   )
                 ],
               ),

@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:barg_store_app/ipcon.dart';
 import 'package:barg_store_app/screen/drawer_screen/accepted_screen/accepted_screen.dart';
-import 'package:barg_store_app/screen/drawer_screen/history_order_screen.dart/histoly_order_screen.dart';
+import 'package:barg_store_app/screen/drawer_screen/history_order_screen.dart/history_order_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/profile_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/setting_menu_screen/setting_menu_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/setting_store_screen/setting_store_screen.dart';

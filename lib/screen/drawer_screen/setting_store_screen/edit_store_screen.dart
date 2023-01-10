@@ -21,6 +21,7 @@ class EditStoreScreen extends StatefulWidget {
   String store_district;
   String store_province;
   String store_zipcode;
+  String store_detail;
 
   EditStoreScreen(
       {required this.store_img,
@@ -30,7 +31,8 @@ class EditStoreScreen extends StatefulWidget {
       required this.store_county,
       required this.store_district,
       required this.store_province,
-      required this.store_zipcode});
+      required this.store_zipcode,
+      required this.store_detail});
 
   @override
   State<EditStoreScreen> createState() => _EditStoreScreenState();
@@ -46,7 +48,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
   TextEditingController? store_district;
   TextEditingController? store_province;
   TextEditingController? store_zipcode;
-
+  TextEditingController? store_detail;
   setTextController() async {
     store_name = TextEditingController(text: widget.store_name);
     store_house_number = TextEditingController(text: widget.store_house_number);
@@ -54,6 +56,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
     store_district = TextEditingController(text: widget.store_district);
     store_province = TextEditingController(text: widget.store_province);
     store_zipcode = TextEditingController(text: widget.store_zipcode);
+    store_detail = TextEditingController(text: widget.store_detail);
   }
 
   edit_store() async {
@@ -69,6 +72,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
         "store_district": store_district!.text,
         "store_province": store_province!.text,
         "store_zipcode": store_zipcode!.text,
+        "store_detail": store_detail!.text,
       }),
     );
     var data = json.decode(response.body);
@@ -174,6 +178,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                       buildInputBox("District", store_district),
                       buildInputBox("Province", store_province),
                       buildInputBox("Zipcode", store_zipcode),
+                      buildInputBox("Detail", store_detail),
                       buildButtonSave()
                     ],
                   ),

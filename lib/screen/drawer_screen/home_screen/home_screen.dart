@@ -26,13 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List orderList = [];
   List order_List = [];
   bool show = false;
-  int sum_price = 0;
   String? request_id;
   bool statusLoading = false;
-  List amoutList = [];
-  List priceList = [];
-  int sum_amount = 0;
-  int sum_pirce = 0;
 
   get_request() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -56,17 +51,18 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         orderList = data;
         request_id = _request_id;
-        sum_price = 0;
       });
-      for (var i = 0; i < orderList.length; i++) {
-        if (orderList[i]['price'] != null) {
-          sum_price = sum_price + int.parse(orderList[i]['price']);
-        }
-      }
       setState(() {
         statusLoading = false;
       });
-      buildShow(_request_id, _order_id, _slip_img, _time);
+      buildShow(
+          _request_id,
+          _order_id,
+          _slip_img,
+          _time,
+          '${requestList[0]['sum_price']}',
+          '${requestList[0]['delivery_fee']}',
+          '${requestList[0]['total']}');
     }
   }
 
@@ -75,23 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var data = json.decode(response.body);
     setState(() {
       order_List = data;
-      sum_amount = 0;
-      sum_pirce = 0;
     });
-    for (var i = 0; i < order_List.length; i++) {
-      int amount = int.parse(order_List[i]['amount']);
-      int price = int.parse(order_List[i]['price']);
-
-      sum_amount = sum_amount + amount;
-      sum_pirce = sum_pirce + price;
-    }
-    if (amoutList.length < requestList.length) {
-      amoutList.add('$sum_amount');
-      priceList.add('$sum_pirce');
-    } else {
-      amoutList[index] = sum_amount.toString();
-      priceList[index] = sum_pirce.toString();
-    }
   }
 
   update_request() async {
@@ -194,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.035, vertical: height * 0.005),
                   width: width,
-                  height: height * 0.13,
+                  height: height * 0.09,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -207,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -237,42 +218,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AutoText(
-                              text: "Item ",
-                              fontSize: 16,
-                              color: Colors.black54,
-                              fontWeight: null,
-                            ),
-                            amoutList.isEmpty
-                                ? Text("")
-                                : AutoText(
-                                    text: amoutList[index],
-                                    fontSize: 16,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.bold,
-                                  )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.03, vertical: height * 0.005),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AutoText(
                               text: "Total ",
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
-                            amoutList.isEmpty
-                                ? Text("")
-                                : AutoText(
-                                    text: '${priceList[index]}฿',
-                                    fontSize: 16,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            AutoText(
+                              text: '${requestList[index]['total']}฿',
+                              fontSize: 16,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ],
                         ),
                       ),
@@ -287,8 +243,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  buildShow(String? _request_id, String? _order_id, String? _slip_img,
-      String? _time) {
+  buildShow(
+    String? _request_id,
+    String? _order_id,
+    String? _slip_img,
+    String? _time,
+    String? sum_price,
+    String? delivery_fee,
+    String? total,
+  ) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return showDialog(
@@ -372,12 +335,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    AutoText2(
-                                      text: "${orderList[index]['food_name']}",
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: null,
+                                    Container(
+                                      // color: Colors.red,
+                                      width: width * 0.55,
+                                      child: AutoText2(
+                                        text:
+                                            "${orderList[index]['food_name']}",
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: null,
+                                      ),
                                     ),
                                     AutoText2(
                                       text: "${orderList[index]['detail']}",
@@ -387,17 +356,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ],
                                 ),
-                                AutoText(
-                                  text: "${orderList[index]['amount']}",
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: null,
+                                Container(
+                                  width: width * 0.1,
+                                  // color: Colors.green,
+                                  child: Center(
+                                    child: AutoText(
+                                      text: "${orderList[index]['amount']}",
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: null,
+                                    ),
+                                  ),
                                 ),
-                                AutoText(
-                                  text: "${orderList[index]['price']}",
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: null,
+                                Container(
+                                  width: width * 0.1,
+                                  alignment: Alignment.centerRight,
+                                  // color: Colors.yellow,
+                                  child: AutoText(
+                                    text: "${orderList[index]['price']}",
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: null,
+                                  ),
                                 ),
                               ],
                             ),
@@ -410,25 +390,56 @@ class _HomeScreenState extends State<HomeScreen> {
                 //buttom
                 Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AutoText2(
-                            text: "Total",
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          AutoText(
-                            text: "${sum_price}฿",
-                            fontSize: 20,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoText(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          text: 'Subtotal',
+                        ),
+                        AutoText(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          text: '$sum_price ฿',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoText(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          text: 'delivery fee',
+                        ),
+                        AutoText(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          text: '$delivery_fee ฿',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoText(
+                          text: "Total",
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        AutoText(
+                          text: "$total ฿",
+                          fontSize: 20,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
                     ),
                     _slip_img == ""
                         ? Container(

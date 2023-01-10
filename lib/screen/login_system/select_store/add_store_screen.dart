@@ -31,6 +31,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   TextEditingController store_district = TextEditingController();
   TextEditingController store_province = TextEditingController();
   TextEditingController store_zipcode = TextEditingController();
+  TextEditingController store_detail = TextEditingController();
 
   add_store() async {
     String? user_id;
@@ -48,6 +49,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
     request.fields['store_district'] = store_district.text;
     request.fields['store_province'] = store_province.text;
     request.fields['store_zipcode'] = store_zipcode.text;
+    request.fields['store_detail'] = store_detail.text;
 
     var response = await request.send();
     if (response.statusCode == 200) {
@@ -143,6 +145,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       buildInputBox("District", store_district, 0.12),
                       buildInputBox("Province", store_province, 0.14),
                       buildInputBox("Zipcode", store_zipcode, 0.13),
+                      buildInputBox("Detail", store_detail, 0.13),
                       buildButtonAdd()
                     ],
                   ),

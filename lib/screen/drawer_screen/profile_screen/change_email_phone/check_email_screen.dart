@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/change_email_phone/check_otp_screen2.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_aleart.dart';
 import 'package:http/http.dart' as http;
@@ -104,11 +105,9 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: height * 0.04),
                       child: AutoText(
-                       
                         text: "Enter New Email",
                         fontSize: 30,
                         color: Colors.white,
-                      
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -134,17 +133,15 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-           
             text: "Email",
             fontSize: 14,
             color: Colors.white,
-          
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -157,17 +154,17 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
             child: TextFormField(
               controller: email,
               style: TextStyle(
-                color: Colors.white,
+                color: blue,
               ),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(top: 14),
                   prefixIcon: Icon(
                     Icons.key,
-                    color: Colors.white,
+                    color: blue,
                   ),
                   hintText: "Enter your New Email",
-                  hintStyle: TextStyle(color: Colors.white54)),
+                  hintStyle: TextStyle(color: blue)),
             ),
           )
         ],
@@ -199,10 +196,9 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Continue',
-          
             fontWeight: FontWeight.bold,
           ),
         ),

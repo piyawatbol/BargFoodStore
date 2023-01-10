@@ -134,7 +134,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                             margin: EdgeInsets.symmetric(
                               vertical: height * 0.005,
                             ),
-                            height: height * 0.18,
+                            height: height * 0.2,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: Colors.white,
@@ -155,7 +155,7 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                                 children: [
                                   SizedBox(
                                     width: width * 0.35,
-                                    height: height * 0.25,
+                                    height: height * 0.3,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
                                       child: Image.network(
@@ -209,6 +209,11 @@ class _SelectStoreScreenState extends State<SelectStoreScreen> {
                                           buildRowText(
                                               "Zipcode : ",
                                               "${storeList[index]['store_zipcode']}",
+                                              0.16,
+                                              0.24),
+                                          buildRowText(
+                                              "Detail : ",
+                                              "${storeList[index]['store_detail']}",
                                               0.16,
                                               0.24),
                                         ],

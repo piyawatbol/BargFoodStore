@@ -40,7 +40,7 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
     if (this.mounted) {
       setState(() {
         storeList = data;
-        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+        mapController?.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(
             zoom: 16,
             target: LatLng(double.parse(storeList[0]['store_lat']),
@@ -149,7 +149,7 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
         : Container(
             padding: EdgeInsets.symmetric(vertical: height * 0.01),
             width: width * 0.85,
-            height: height * 0.21,
+            height: height * 0.26,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5),
@@ -176,6 +176,8 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
                       "Province :", storeList[0]['store_province'], 0.22, 0.47),
                   buildRowText(
                       "Zipcode :", storeList[0]['store_zipcode'], 0.2, 0.49),
+                  buildRowText(
+                      "Detail :", storeList[0]['store_detail'], 0.2, 0.49),
                 ],
               ),
             ),
@@ -300,14 +302,16 @@ class _SettingStoreScreenState extends State<SettingStoreScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return EditStoreScreen(
-                      store_img: storeList[0]['store_image'],
-                      store_id: storeList[0]['store_id'].toString(),
-                      store_name: storeList[0]['store_name'],
-                      store_house_number: storeList[0]['store_house_number'],
-                      store_county: storeList[0]['store_county'],
-                      store_district: storeList[0]['store_district'],
-                      store_province: storeList[0]['store_province'],
-                      store_zipcode: storeList[0]['store_zipcode']);
+                    store_img: storeList[0]['store_image'],
+                    store_id: storeList[0]['store_id'].toString(),
+                    store_name: storeList[0]['store_name'],
+                    store_house_number: storeList[0]['store_house_number'],
+                    store_county: storeList[0]['store_county'],
+                    store_district: storeList[0]['store_district'],
+                    store_province: storeList[0]['store_province'],
+                    store_zipcode: storeList[0]['store_zipcode'],
+                    store_detail: '${storeList[0]['store_detail']}',
+                  );
                 }));
               },
               child: Center(

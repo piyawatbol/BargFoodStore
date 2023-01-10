@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 import 'dart:async';
 import 'dart:convert';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:barg_store_app/ipcon.dart';
@@ -160,11 +161,10 @@ class _MappickerScreenState extends State<MappickerScreen> {
                 child: const Text(
                   "Pin",
                   style: TextStyle(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.normal,
                     color: Color(0xFFFFFFFF),
                     fontSize: 19,
-                    // height: 19/19,
                   ),
                 ),
                 onPressed: () {
@@ -177,8 +177,7 @@ class _MappickerScreenState extends State<MappickerScreen> {
                       cameraPosition.target.longitude);
                 },
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(const Color(0xFFA3080C)),
+                  backgroundColor: MaterialStateProperty.all<Color>(blue),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -200,15 +199,13 @@ class _MappickerScreenState extends State<MappickerScreen> {
                     icon: Icon(
                       Icons.arrow_back_ios_new_outlined,
                       size: 35,
-                      color: Colors.black,
+                      color: blue,
                     ),
                   ),
                   Text(
                     "Pin Store",
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        fontSize: 18, fontWeight: FontWeight.bold, color: blue),
                   ),
                 ],
               ),

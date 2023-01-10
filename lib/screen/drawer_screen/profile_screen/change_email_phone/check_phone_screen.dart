@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_aleart.dart';
 import 'package:http/http.dart' as http;
@@ -116,11 +117,9 @@ class _CheckPhoneScreenState extends State<CheckPhoneScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: height * 0.04),
                       child: AutoText(
-                       
                         text: "Enter New Phone",
                         fontSize: 30,
                         color: Colors.white,
-                      
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -146,17 +145,15 @@ class _CheckPhoneScreenState extends State<CheckPhoneScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-          
             text: "Phone",
             fontSize: 14,
             color: Colors.white,
-           
             fontWeight: null,
           ),
           SizedBox(height: height * 0.004),
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFF6CA8F1),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -176,10 +173,10 @@ class _CheckPhoneScreenState extends State<CheckPhoneScreen> {
                   contentPadding: EdgeInsets.only(top: 14),
                   prefixIcon: Icon(
                     Icons.key,
-                    color: Colors.white,
+                    color: blue,
                   ),
                   hintText: "Enter your New Phone",
-                  hintStyle: TextStyle(color: Colors.white54)),
+                  hintStyle: TextStyle(color: blue)),
             ),
           )
         ],
@@ -211,10 +208,9 @@ class _CheckPhoneScreenState extends State<CheckPhoneScreen> {
         },
         child: Center(
           child: AutoText(
-            color: Color(0xFF527DAA),
+            color: blue,
             fontSize: 24,
             text: 'Continue',
-          
             fontWeight: FontWeight.bold,
           ),
         ),

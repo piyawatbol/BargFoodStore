@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
+import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
 import 'package:barg_store_app/widget/show_aleart.dart';
 import 'package:http/http.dart' as http;
@@ -10,20 +11,9 @@ import 'package:barg_store_app/widget/back_button.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetailScreen extends StatefulWidget {
-  String? order_id;
-  String? user_id;
-  String? total;
-  String? time;
   String? requset_id;
   String? status;
-
-  OrderDetailScreen(
-      {required this.order_id,
-      required this.user_id,
-      required this.total,
-      required this.time,
-      required this.requset_id,
-      required this.status});
+  OrderDetailScreen({required this.requset_id, required this.status});
 
   @override
   State<OrderDetailScreen> createState() => _OrderDetailScreenState();
@@ -32,7 +22,7 @@ class OrderDetailScreen extends StatefulWidget {
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   List requestList = [];
   List orderList = [];
-  List userList = [];
+  List riderList = [];
   String? rider_id;
   bool statusLoading = false;
 
@@ -40,19 +30,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     final response = await http
         .get(Uri.parse("$ipcon/get_request_single/${widget.requset_id}"));
     var data = json.decode(response.body);
-    if (this.mounted) {
-      setState(() {
-        requestList = data;
-      });
+
+    setState(() {
+      requestList = data;
+    });
+    if (requestList[0]['rider_id'] != '') {
+      get_user(requestList[0]['rider_id']);
     }
-    if (requestList.isNotEmpty) {
-      rider_id = requestList[0]['rider_id'];
-    }
+    get_order(requestList[0]['order_id'].toString());
   }
 
-  get_order() async {
-    final response =
-        await http.get(Uri.parse("$ipcon/get_order/${widget.order_id}"));
+  get_order(order_id) async {
+    final response = await http.get(Uri.parse("$ipcon/get_order/$order_id"));
     var data = json.decode(response.body);
     if (this.mounted) {
       setState(() {
@@ -61,13 +50,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     }
   }
 
-  get_user() async {
-    final response =
-        await http.get(Uri.parse("$ipcon/get_user/${widget.user_id}"));
+  get_user(user_id) async {
+    final response = await http.get(Uri.parse("$ipcon/get_user/$user_id"));
     var data = json.decode(response.body);
     if (this.mounted) {
       setState(() {
-        userList = data;
+        riderList = data;
       });
     }
   }
@@ -94,8 +82,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   @override
   void initState() {
-    get_user();
-    get_order();
+    get_request();
     super.initState();
   }
 
@@ -107,18 +94,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       body: Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF73AEF5),
-              Color(0xFF61A4F1),
-              Color(0xFF478De0),
-              Color(0xFF398AE5)
-            ],
-          ),
-        ),
+        color: blue,
         child: Stack(
           children: [
             SafeArea(
@@ -135,7 +111,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           borderRadius: BorderRadius.circular(15)),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
-                        child: userList.isEmpty || orderList.isEmpty
+                        child: requestList.isEmpty
                             ? Center(
                                 child: CircularProgressIndicator(
                                   color: Colors.blue,
@@ -176,15 +152,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   AutoText(
                     color: Color(0xff2F4F4F),
                     fontSize: 18,
-                    text: '${widget.order_id}',
-                  
+                    text: '${requestList[0]['order_id']}',
                     fontWeight: FontWeight.w700,
                   ),
                   AutoText(
                     color: Color(0xff2F4F4F),
                     fontSize: 18,
-                    text: '${widget.time}',
-                  
+                    text: '${requestList[0]['time']}',
                     fontWeight: FontWeight.w700,
                   ),
                 ],
@@ -194,7 +168,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                requestList.isEmpty
+                riderList.isEmpty
                     ? Container(
                         margin: EdgeInsets.only(right: width * 0.01),
                         padding: EdgeInsets.all(10),
@@ -208,7 +182,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             color: Colors.black54,
                             fontSize: 22,
                             text: 'Waiting Rider',
-                           
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -234,21 +207,19 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 : CircleAvatar(
                                     radius: width * 0.05,
                                     backgroundImage: NetworkImage(
-                                        '$path_img/users/${requestList[0]['user_image']}'),
+                                        '$path_img/users/${riderList[0]['user_image']}'),
                                   ),
                             AutoText2(
                               color: Colors.black54,
                               fontSize: 14,
                               text:
-                                  '${requestList[0]['first_name']} ${requestList[0]['last_name']}',
-                         
+                                  '${riderList[0]['first_name']} ${riderList[0]['last_name']}',
                               fontWeight: FontWeight.bold,
                             ),
                             AutoText2(
                               color: Colors.black54,
                               fontSize: 14,
-                              text: 'Tel : ${requestList[0]['phone']}',
-                              
+                              text: 'Tel : ${riderList[0]['phone']}',
                               fontWeight: FontWeight.bold,
                             ),
                           ],
@@ -264,27 +235,25 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   height: height * 0.12,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoText(
                         color: Colors.black54,
                         fontSize: 22,
                         text: 'Customer',
-                      
                         fontWeight: FontWeight.bold,
                       ),
                       AutoText2(
                         color: Colors.black54,
                         fontSize: 14,
                         text:
-                            '${userList[0]['first_name']} ${userList[0]['last_name']}',
-                      
+                            '${requestList[0]['first_name']} ${requestList[0]['last_name']}',
                         fontWeight: FontWeight.bold,
                       ),
                       AutoText2(
                         color: Colors.black54,
                         fontSize: 14,
-                        text: 'Tel : ${userList[0]['phone']}',
-                 
+                        text: 'Tel : ${requestList[0]['phone']}',
                         fontWeight: FontWeight.bold,
                       ),
                     ],
@@ -302,7 +271,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     color: Colors.black54,
                     fontSize: 22,
                     text: 'Order List',
-                   
                     fontWeight: FontWeight.bold,
                   ),
                   requestList.isEmpty
@@ -312,14 +280,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               color: Colors.black54,
                               fontSize: 22,
                               text: 'ปลายทาง',
-                              
                               fontWeight: FontWeight.bold,
                             )
                           : AutoText(
                               color: Colors.black54,
                               fontSize: 22,
                               text: 'OR Code ',
-                             
                               fontWeight: FontWeight.bold,
                             ),
                 ],
@@ -338,19 +304,52 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 children: [
                   buildListOrder(),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AutoText(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        text: 'Subtotal',
+                      ),
+                      AutoText(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        text: '${requestList[0]['sum_price']} ฿',
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AutoText(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        text: 'delivery fee',
+                      ),
+                      AutoText(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        text: '${requestList[0]['delivery_fee']} ฿',
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AutoText(
                         color: Colors.black,
                         fontSize: 22,
                         text: 'Total',
-                       
                         fontWeight: FontWeight.bold,
                       ),
                       AutoText(
                         color: Colors.green.shade600,
                         fontSize: 22,
-                        text: '${widget.total}฿',
-                        
+                        text: '${requestList[0]['total']} ฿',
                         fontWeight: FontWeight.bold,
                       ),
                     ],
@@ -366,35 +365,58 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget buildListOrder() {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Expanded(
         child: ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       itemCount: orderList.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: height * 0.005),
+          padding: EdgeInsets.symmetric(
+              vertical: height * 0.005, horizontal: width * 0.02),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AutoText2(
-                color: Colors.black,
-                fontSize: 16,
-                text: '${orderList[index]['food_name']}',
-            
-                fontWeight: FontWeight.w500,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: width * 0.55,
+                    child: AutoText2(
+                      color: Colors.black,
+                      fontSize: 16,
+                      text: '${orderList[index]['food_name']}',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  AutoText2(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    text: '${orderList[index]['detail']}',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
               ),
-              AutoText(
-                color: Colors.black,
-                fontSize: 16,
-                text: '${orderList[index]['amount']}',
-              
-                fontWeight: FontWeight.w500,
+              Container(
+                child: Center(
+                  child: AutoText(
+                    color: Colors.black,
+                    fontSize: 16,
+                    text: '${orderList[index]['amount']}',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-              AutoText(
-                  color: Colors.black,
-                  fontSize: 16,
-                  text: '${orderList[index]['price']}',
-               
-                  fontWeight: FontWeight.w500),
+              Container(
+                width: width * 0.1,
+                alignment: Alignment.centerRight,
+                child: AutoText(
+                    color: Colors.black,
+                    fontSize: 16,
+                    text: '${orderList[index]['price']}',
+                    fontWeight: FontWeight.w500),
+              ),
             ],
           ),
         );
@@ -419,7 +441,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
         ),
         onPressed: () {
-          if (rider_id != null) {
+          if (requestList[0]['rider_id'] != '') {
             setState(() {
               statusLoading = true;
             });
@@ -432,7 +454,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           color: Colors.white,
           fontSize: 16,
           text: '$text',
-        
           fontWeight: FontWeight.bold,
         ),
       ),
