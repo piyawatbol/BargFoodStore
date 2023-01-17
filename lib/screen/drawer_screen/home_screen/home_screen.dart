@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_local_variable, must_be_immutable
 import 'dart:convert';
 import 'package:barg_store_app/screen/drawer_screen/home_screen/cancel_order_screen.dart';
-import 'package:barg_store_app/screen/drawer_screen/home_screen/show_bid_slip.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/color.dart';
 import 'package:barg_store_app/widget/loadingPage.dart';
@@ -156,7 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             itemCount: requestList.length,
             itemBuilder: (BuildContext context, int index) {
-              get_sum_amout_price(requestList[index]['order_id'], index);
               return GestureDetector(
                 onTap: () async {
                   setState(() {
@@ -174,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.035, vertical: height * 0.005),
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.15,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -207,6 +205,48 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16,
                               color: Colors.grey.shade800,
                               fontWeight: null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03, vertical: height * 0.005),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AutoText(
+                              text: "Food Price",
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            AutoText(
+                              text: '${requestList[index]['sum_price']}฿',
+                              fontSize: 16,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03, vertical: height * 0.005),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AutoText(
+                              text: "Delivery fee",
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            AutoText(
+                              text: '${requestList[index]['delivery_fee']}฿',
+                              fontSize: 16,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
                             ),
                           ],
                         ),
@@ -390,87 +430,65 @@ class _HomeScreenState extends State<HomeScreen> {
                 //buttom
                 Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AutoText(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          text: 'Subtotal',
-                        ),
-                        AutoText(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          text: '$sum_price ฿',
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AutoText(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          text: 'delivery fee',
-                        ),
-                        AutoText(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          text: '$delivery_fee ฿',
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AutoText(
-                          text: "Total",
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        AutoText(
-                          text: "$total ฿",
-                          fontSize: 20,
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                    _slip_img == ""
-                        ? Container(
-                            width: width * 0.5,
-                            height: height * 0.07,
-                            child: Center(
-                              child: AutoText(
-                                text: "เก็บปลายทาง",
-                                fontSize: 20,
-                                color: Colors.orange,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.04, vertical: height * 0.01),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AutoText(
+                                color: Colors.black,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500,
+                                text: 'Subtotal',
                               ),
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return showBigSlip(img: _slip_img);
-                              }));
-                            },
-                            child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: height * 0.01),
-                                width: double.infinity,
-                                height: height * 0.22,
-                                child: Image.network(
-                                  "$path_img/slip/$_slip_img",
-                                  fit: BoxFit.contain,
-                                )),
+                              AutoText(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                text: '$sum_price ฿',
+                              ),
+                            ],
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AutoText(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                text: 'delivery fee',
+                              ),
+                              AutoText(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                text: '$delivery_fee ฿',
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AutoText(
+                                text: "Total",
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              AutoText(
+                                text: "$total ฿",
+                                fontSize: 20,
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                     Container(
                       width: width,
                       height: height * 0.07,

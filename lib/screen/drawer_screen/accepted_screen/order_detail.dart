@@ -246,8 +246,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       AutoText2(
                         color: Colors.black54,
                         fontSize: 14,
-                        text:
-                            '${requestList[0]['first_name']} ${requestList[0]['last_name']}',
+                        text: '${requestList[0]['name']} ',
                         fontWeight: FontWeight.bold,
                       ),
                       AutoText2(

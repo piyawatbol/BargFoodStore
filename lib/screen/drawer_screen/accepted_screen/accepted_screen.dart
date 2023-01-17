@@ -24,12 +24,13 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
   String? request_id;
   bool statusLoading = false;
 
-  get_request() async {
+  get_request_confirm() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       store_id = preferences.getString('store_id');
     });
-    final response = await http.get(Uri.parse("$ipcon/get_request/$store_id"));
+    final response =
+        await http.get(Uri.parse("$ipcon/get_request_confirm/$store_id"));
     var data = json.decode(response.body);
     if (this.mounted) {
       setState(() {
@@ -63,7 +64,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return FutureBuilder(
-      future: get_request(),
+      future: get_request_confirm(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return Expanded(
           child: ListView.builder(
@@ -84,7 +85,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.035, vertical: height * 0.005),
                   width: width,
-                  height: height * 0.16,
+                  height: height * 0.15,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -97,6 +98,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                     ],
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -114,7 +116,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                             AutoText(
                               text: requestList[index]['order_status_name'],
                               fontSize: 16,
-                              color: requestList[index]['status'] == '3'
+                              color: requestList[index]['order_status_id'] == 3
                                   ? Colors.orange
                                   : Colors.green,
                               fontWeight: null,
@@ -126,12 +128,8 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                           index,
                           requestList[index]['order_id'].toString(),
                           requestList[index]['time'].toString()),
-                      buildRowText(
-                          index,
-                          'Pay type ',
-                          requestList[index]['slip_img'] != ''
-                              ? 'QR Code'
-                              : "ปลายทาง"),
+                      buildRowText(index, 'Pay type ',
+                          "${requestList[index]['buyer_name']}"),
                       buildRowText(
                         index,
                         'Total',
