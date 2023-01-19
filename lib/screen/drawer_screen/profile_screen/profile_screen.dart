@@ -4,6 +4,7 @@ import 'package:barg_store_app/ipcon.dart';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/edit_proflile_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/report_screen.dart';
 import 'package:barg_store_app/screen/drawer_screen/profile_screen/show_big_img.dart';
+import 'package:barg_store_app/screen/drawer_screen/profile_screen/wallet/wallet_screen.dart';
 import 'package:barg_store_app/screen/login_system/login_screen.dart';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
@@ -214,7 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ReportScreen();
+                  return WalletScreen();
                 }));
               },
               child: Row(
