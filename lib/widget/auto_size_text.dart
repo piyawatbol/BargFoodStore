@@ -10,11 +10,12 @@ class AutoText extends StatefulWidget {
   double? fontSize;
 
   FontWeight? fontWeight;
-  AutoText(
-      {required this.text,
-      required this.fontSize,
-      required this.color,
-      required this.fontWeight});
+  AutoText({
+    required this.text,
+    required this.fontSize,
+    required this.color,
+    required this.fontWeight,
+  });
 
   @override
   State<AutoText> createState() => _AutoTextState();

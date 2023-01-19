@@ -80,23 +80,12 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: blue,
       body: Stack(
         children: [
           Container(
             width: width,
             height: height,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF73AEF5),
-                  Color(0xFF61A4F1),
-                  Color(0xFF478De0),
-                  Color(0xFF398AE5)
-                ],
-              ),
-            ),
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Column(

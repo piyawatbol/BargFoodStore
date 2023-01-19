@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.symmetric(
                       horizontal: width * 0.035, vertical: height * 0.005),
                   width: width,
-                  height: height * 0.15,
+                  height: height * 0.17,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
