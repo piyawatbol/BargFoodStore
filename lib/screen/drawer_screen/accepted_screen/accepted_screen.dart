@@ -76,7 +76,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                       MaterialPageRoute(builder: (BuildContext context) {
                     return OrderDetailScreen(
                       requset_id: '${requestList[index]['request_id']}',
-                      status: '${requestList[index]['status']}',
+                      status: '${requestList[index]['order_status_id']}',
                     );
                   }));
                 },
@@ -111,7 +111,7 @@ class _AcceptedScreenState extends State<AcceptedScreen> {
                               text: "Status",
                               fontSize: 16,
                               color: Colors.black,
-                              fontWeight: FontWeight.w600, 
+                              fontWeight: FontWeight.w600,
                             ),
                             AutoText(
                               text: requestList[index]['order_status_name'],

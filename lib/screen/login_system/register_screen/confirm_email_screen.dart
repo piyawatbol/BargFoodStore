@@ -99,12 +99,10 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
       setState(() {
         statusLoading = false;
       });
-      if (data == "register success") {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (BuildContext context) {
-          return LoginScreen();
-        }), (route) => false);
-      }
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return LoginScreen();
+      }), (route) => false);
     }
   }
 
@@ -171,11 +169,9 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: height * 0.05),
                         child: AutoText(
-                         
                           text: "${widget.email}",
                           fontSize: 24,
                           color: Colors.white,
-                         
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -203,11 +199,9 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoText(
-         
             text: "Otp",
             fontSize: 14,
             color: Colors.white,
-           
             fontWeight: FontWeight.w600,
           ),
           SizedBox(
@@ -265,16 +259,13 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
               fontSize: 14,
               fontWeight: null,
               text: 'send again',
-             
             ))
         : Padding(
             padding: EdgeInsets.symmetric(vertical: height * 0.02),
             child: AutoText(
-            
               text: "Resend in $_Counter seconds",
               fontSize: 14,
               color: Colors.white,
-             
               fontWeight: null,
             ),
           );
@@ -307,7 +298,6 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
             color: Color(0xFF527DAA),
             fontSize: 24,
             text: 'Continnue',
-           
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -349,7 +339,6 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 text: 'Ok',
-         
               ),
             ),
           ),

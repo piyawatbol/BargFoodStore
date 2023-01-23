@@ -83,6 +83,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   void initState() {
     get_request();
+    print(widget.status);
     super.initState();
   }
 
@@ -120,7 +121,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             : buildInfo(),
                       ),
                     ),
-                    widget.status == '6' || widget.status == '7'
+                    widget.status == "6" || widget.status == "7"
                         ? Container()
                         : buildButton("Send To Rider", Colors.green)
                   ],

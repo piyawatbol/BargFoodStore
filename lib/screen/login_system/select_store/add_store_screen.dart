@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:barg_store_app/widget/auto_size_text.dart';
 import 'package:barg_store_app/widget/back_button.dart';
@@ -56,7 +57,27 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
       setState(() {
         statusLoading = false;
       });
-      print('add store success');
+      final responseBody = await response.stream.bytesToString();
+      add_wallet_store(responseBody.toString());
+    }
+  }
+
+  add_wallet_store(String store_id) async {
+    final response = await http.post(
+      Uri.parse('$ipcon/register_store_wallet'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "store_id": store_id,
+      }),
+    );
+    var data = json.decode(response.body);
+    print(data);
+    if (response.statusCode == 200) {
+      setState(() {
+        statusLoading = false;
+      });
       Navigator.pop(context);
     }
   }

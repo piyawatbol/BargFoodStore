@@ -93,6 +93,27 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  cancel_order() async {
+    final response = await http.post(
+      Uri.parse('$ipcon/cancel_order'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "request_id": request_id.toString(),
+        "order_status_id": "8",
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        statusLoading = false;
+      });
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+  }
+
   @override
   void initState() {
     get_request();
@@ -538,7 +559,6 @@ class _HomeScreenState extends State<HomeScreen> {
             });
             update_request();
           } else {
-            Navigator.pop(context);
             showdialogCancel();
           }
         },
@@ -581,13 +601,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return CancelORderScreen(
-                        request_id: request_id,
-                      );
-                    }));
+                    cancel_order();
                   },
                   child: Text('yes'),
                 ),

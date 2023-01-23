@@ -17,15 +17,16 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  String? user_id;
+  String? store_id;
   List walletList = [];
 
   get_wallet() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      user_id = preferences.getString('user_id');
+      store_id = preferences.getString('store_id');
     });
-    final response = await http.get(Uri.parse("$ipcon/get_wallet/$user_id"));
+    final response =
+        await http.get(Uri.parse("$ipcon/get_wallet_store/$store_id"));
     var data = json.decode(response.body);
     setState(() {
       walletList = data;
@@ -46,11 +47,10 @@ class _WalletScreenState extends State<WalletScreen> {
       appBar: AppBar(
         backgroundColor: blue,
         title: AutoText(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          text: 'Wallet'
-        ),
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            text: 'Wallet'),
       ),
       body: walletList.isEmpty
           ? Center(child: CircularProgressIndicator(color: blue))
@@ -74,7 +74,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           color: Colors.black,
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
-                          text: '${walletList[0]['wallet_total']} ฿', 
+                          text: '${walletList[0]['wallet_store_total']} ฿',
                         ),
                       ],
                     ),
@@ -86,7 +86,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     buildIcon("withdraw", Icons.payment),
-                    buildIcon("top up", Icons.add_card),
+                    // buildIcon("top up", Icons.add_card),
                     buildIcon("list", Icons.access_time)
                   ],
                 ),
@@ -112,8 +112,8 @@ class _WalletScreenState extends State<WalletScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) {
             return WithDrawWalletScreen(
-                wallet_id: '${walletList[0]['wallet_id']}',
-                wallet_total: '${walletList[0]['wallet_total']}');
+                wallet_store_id: '${walletList[0]['wallet_store_id']}',
+                wallet_store_total: '${walletList[0]['wallet_store_total']}');
           })).then((value) => get_wallet());
         } else if (text == "list") {
           Navigator.push(context,
@@ -135,7 +135,7 @@ class _WalletScreenState extends State<WalletScreen> {
               color: Colors.black.withOpacity(0.8),
               fontSize: 12,
               fontWeight: null,
-              text: '$text', 
+              text: '$text',
             ),
           ],
         ),

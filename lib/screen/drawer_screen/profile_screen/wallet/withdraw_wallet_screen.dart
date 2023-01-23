@@ -10,9 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WithDrawWalletScreen extends StatefulWidget {
-  String? wallet_id;
-  String? wallet_total;
-  WithDrawWalletScreen({required this.wallet_id, required this.wallet_total});
+  String? wallet_store_id;
+  String? wallet_store_total;
+  WithDrawWalletScreen(
+      {required this.wallet_store_id, required this.wallet_store_total});
 
   @override
   State<WithDrawWalletScreen> createState() => _WithDrawWalletScreenState();
@@ -22,24 +23,24 @@ class _WithDrawWalletScreenState extends State<WithDrawWalletScreen> {
   TextEditingController money = TextEditingController();
   TextEditingController bank = TextEditingController();
   String? select;
-  String? user_id;
+  String? store_id;
   bool statusLoading = false;
 
   sub_wallet() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      user_id = preferences.getString('user_id');
+      store_id = preferences.getString('store_id');
     });
     final response = await http.patch(
-      Uri.parse('$ipcon/sub_wallet/$user_id'),
+      Uri.parse('$ipcon/sub_wallet_store/$store_id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "wallet_id": widget.wallet_id!,
-        "wallet_amount": money.text,
+        "wallet_store_id": widget.wallet_store_id!,
+        "wallet_store_amount": money.text,
         "banking": bank.text,
-        "wallet_total": widget.wallet_total!
+        "wallet_store_total": widget.wallet_store_total!
       }),
     );
     var data = json.decode(response.body);
@@ -104,7 +105,7 @@ class _WithDrawWalletScreenState extends State<WithDrawWalletScreen> {
                             color: Colors.grey,
                             fontSize: 12,
                             fontWeight: null,
-                            text: '( balance ${widget.wallet_total} ฿ )',
+                            text: '( balance ${widget.wallet_store_total} ฿ )',
                           ),
                         ],
                       ),

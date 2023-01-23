@@ -39,6 +39,12 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   }
 
   @override
+  void initState() {
+    get_request();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -62,89 +68,82 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   Widget buildListRequest() {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return FutureBuilder(
-      future: get_request(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return Expanded(
-          child: ListView.builder(
-            itemCount: requestList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () async {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return OrderDetailScreen(
-                      requset_id: '${requestList[index]['request_id']}',
-                      status: '${requestList[index]['status']}',
-                    );
-                  }));
-                },
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.symmetric(
-                      horizontal: width * 0.035, vertical: height * 0.005),
-                  width: width,
-                  height: height * 0.16,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 2,
-                        offset: Offset(3, 5),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.03, vertical: height * 0.005),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AutoText(
-                              text: "Status",
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            AutoText(
-                              text: requestList[index]['order_status_name'],
-                              fontSize: 16,
-                              color: requestList[index]['status'] == '3'
-                                  ? Colors.orange
-                                  : Colors.green,
-                              fontWeight: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      buildRowText(
-                          index,
-                          requestList[index]['order_id'].toString(),
-                          requestList[index]['time'].toString()),
-                      buildRowText(
-                          index,
-                          'Pay type ',
-                          requestList[index]['slip_img'] != ''
-                              ? 'QR Code'
-                              : "ปลายทาง"),
-                      buildRowText(
-                        index,
-                        'Total',
-                        '${requestList[index]['total']}฿',
-                      ),
-                    ],
-                  ),
-                ),
-              );
+    return Expanded(
+      child: ListView.builder(
+        itemCount: requestList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () async {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return OrderDetailScreen(
+                  requset_id: '${requestList[index]['request_id']}',
+                  status: '${requestList[index]['order_status_id']}',
+                );
+              }));
             },
-          ),
-        );
-      },
+            child: Container(
+              padding: EdgeInsets.all(5),
+              margin: EdgeInsets.symmetric(
+                  horizontal: width * 0.035, vertical: height * 0.005),
+              width: width,
+              height: height * 0.16,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 2,
+                    offset: Offset(3, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.03, vertical: height * 0.005),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoText(
+                          text: "Status",
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        AutoText(
+                          text: requestList[index]['order_status_name'],
+                          fontSize: 16,
+                          color: requestList[index]['order_status'] == 3
+                              ? Colors.orange
+                              : Colors.green,
+                          fontWeight: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                  buildRowText(index, requestList[index]['order_id'].toString(),
+                      requestList[index]['time'].toString()),
+                  buildRowText(
+                      index,
+                      'Pay type ',
+                      requestList[index]['slip_img'] != ''
+                          ? 'QR Code'
+                          : "ปลายทาง"),
+                  buildRowText(
+                    index,
+                    'Total',
+                    '${requestList[index]['total']}฿',
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

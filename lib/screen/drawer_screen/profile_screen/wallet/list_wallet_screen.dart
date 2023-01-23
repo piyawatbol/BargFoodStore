@@ -15,15 +15,15 @@ class ListWalletScreen extends StatefulWidget {
 
 class _ListWalletScreenState extends State<ListWalletScreen> {
   List historyList = [];
-  String? user_id;
+  String? store_id;
 
   get_wallet() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      user_id = preferences.getString('user_id');
+      store_id = preferences.getString('store_id');
     });
     final response =
-        await http.get(Uri.parse("$ipcon/get_wallet_history/$user_id"));
+        await http.get(Uri.parse("$ipcon/get_wallet_store_history/$store_id"));
     var data = json.decode(response.body);
     setState(() {
       historyList = data;
@@ -47,7 +47,7 @@ class _ListWalletScreenState extends State<ListWalletScreen> {
           color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          text: 'List', 
+          text: 'List',
         ),
       ),
       body: historyList.isEmpty
@@ -61,58 +61,63 @@ class _ListWalletScreenState extends State<ListWalletScreen> {
                     child: ListView.builder(
                       itemCount: historyList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: width,
-                          height: height * 0.08,
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(width: 0.2, color: Colors.grey)),
-                          child: Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.02),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AutoText(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: null,
-                                      text:
-                                          '${historyList[index]['wallet_status_name']}', 
-                                    ),
-                                    historyList[index]['wallet_status_id'] == 1
-                                        ? AutoText(
-                                            color: Colors.green,
+                        return historyList[0]['item'] == "don't history"
+                            ? SizedBox()
+                            : Container(
+                                width: width,
+                                height: height * 0.08,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 0.2, color: Colors.grey)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width * 0.02),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AutoText(
+                                            color: Colors.black,
                                             fontSize: 16,
                                             fontWeight: null,
                                             text:
-                                                '+ ${historyList[index]['wallet_amount']}', 
-                                          )
-                                        : AutoText(
-                                            color: Colors.red,
-                                            fontSize: 16,
-                                            fontWeight: null,
-                                            text:
-                                                '- ${historyList[index]['wallet_amount']}',
-                                          )
-                                  ],
+                                                '${historyList[index]['wallet_status_name']}',
+                                          ),
+                                          historyList[index]
+                                                      ['wallet_status_id'] ==
+                                                  1
+                                              ? AutoText(
+                                                  color: Colors.green,
+                                                  fontSize: 16,
+                                                  fontWeight: null,
+                                                  text:
+                                                      '+ ${historyList[index]['wallet_store_amount']}',
+                                                )
+                                              : AutoText(
+                                                  color: Colors.red,
+                                                  fontSize: 16,
+                                                  fontWeight: null,
+                                                  text:
+                                                      '- ${historyList[index]['wallet_store_amount']}',
+                                                )
+                                        ],
+                                      ),
+                                      AutoText(
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                        fontWeight: null,
+                                        text:
+                                            '${historyList[index]['wallet_store_date']} ${historyList[index]['wallet_store_time']}',
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                AutoText(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                  fontWeight: null,
-                                  text:
-                                      '${historyList[index]['wallet_date']} ${historyList[index]['wallet_time']}', 
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                              );
                       },
                     ),
                   )
